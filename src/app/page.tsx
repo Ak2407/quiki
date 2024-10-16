@@ -1,13 +1,9 @@
-import { toast } from "sonner";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
-  const handleClick = () => {
-    toast.success("Hello World");
-  };
-
   return (
     <div>
-      <button onClick={handleClick}>Toast</button>
+      <Navbar />
     </div>
   );
 }
