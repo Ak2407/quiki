@@ -1,8 +1,15 @@
+import Image from "next/image";
+import Link from "next/link";
+
 const Logo = () => {
   return (
-    <div>
-      <img src="/icon.svg" alt="logo" />
-    </div>
+    <Link href="/">
+      <div className="w-fit flex gap-4 items-center justify-center hover:opacity-85 ">
+        <Image height={30} width={30} src="/icon.svg" alt="logo" />
+        <p className="text-xl text-blue-700/50">/</p>
+        <h1 className="text-xl font-bold text-blue-700">QUIKI</h1>
+      </div>
+    </Link>
   );
 };
 
