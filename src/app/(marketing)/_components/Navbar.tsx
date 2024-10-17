@@ -36,15 +36,6 @@ const Navbar = () => {
           ))}
         </div>
       </div>
-      {/* <div className={`flex-1 max-w-[500px] ${isSignedIn ? "" : "hidden"}`}>
-        <Button
-          variant="primary"
-          className="flex gap-2 items-center justify-center  w-full"
-        >
-          Create
-          <PlusIcon className="w-4 h-4" />
-        </Button>
-      </div> */}
 
       <div className="flex items-center justify-center gap-10">
         <div className={`hidden lg:block `}>
@@ -53,7 +44,7 @@ const Navbar = () => {
         {isSignedIn ? (
           <div className="flex items-center justify-center gap-2 ">
             <UserButton />
-            <Link href="/dashboard" className="hidden sm:block">
+            <Link href="/dashboard" className="hidden sm:block ">
               <Button variant="link" className="text-sm flex gap-2 ">
                 Dashboard
                 <MoveRight className="w-4 h-4" />
