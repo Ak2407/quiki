@@ -4,19 +4,19 @@ import { CornerLeftDownIcon, CornerRightUpIcon } from "lucide-react";
 
 const videos = [
   {
-    url: "https://delivery.copycopter.ai/lpusecases0823/car_review_comp.mp4",
+    url: "https://delivery.copycopter.ai/lpexamples0823/one_compressed.mp4",
   },
   {
-    url: "https://delivery.copycopter.ai/lpusecases0823/car_review_comp.mp4",
+    url: "https://delivery.copycopter.ai/lpexamples0823/middle_compressed.mp4",
   },
   {
-    url: "https://delivery.copycopter.ai/lpusecases0823/car_review_comp.mp4",
+    url: "https://delivery.copycopter.ai/lpexamples0823/two_compressed.mp4",
   },
 ];
 
 export default function VideoDisplay() {
   return (
-    <div className="relative mt-10 flex items-center justify-center w-full mx-auto py-6 h-[380px] overflow-hidden ">
+    <div className="relative mt-10 flex items-center justify-center w-full mx-auto py-6 h-[400px] overflow-hidden ">
       <div className="flex items-center justify-center w-fit">
         {/* First Video */}
         <div className=" relative z-10 scale-90 hover:scale-95 opacity-100 translate-x-28 lg:translate-x-14 -rotate-[25deg] transition-all duration-300 p-4 ease-in-out rounded-md">
@@ -39,7 +39,7 @@ export default function VideoDisplay() {
         <div className="relative z-20 scale-105 hover:scale-110 opacity-100 transition-all duration-300 p-4 ease-in-out rounded-md">
           <video
             src={videos[1].url}
-            className="max-h-[280px] max-w-[160px] object-cover rounded-md"
+            className="max-h-[280px] max-w-[160px] min-h-[280px] min-w-[160px] object-cover rounded-md"
             loop
             autoPlay
             muted
@@ -56,7 +56,7 @@ export default function VideoDisplay() {
         <div className="relative z-10 scale-90 hover:scale-95 opacity-100 -translate-x-28 lg:-translate-x-14 rotate-[25deg] transition-all duration-300 p-4 ease-in-out rounded-md">
           <video
             src={videos[2].url}
-            className="max-h-[280px] max-w-[160px] object-cover rounded-md"
+            className="max-h-[280px] max-w-[160px] min-h-[280px] min-w-[160px] object-cover rounded-md"
             loop
             autoPlay
             muted
