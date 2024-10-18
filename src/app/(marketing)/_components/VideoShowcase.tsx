@@ -16,8 +16,8 @@ const videos = [
 
 export default function VideoDisplay() {
   return (
-    <div className="relative mt-10 flex items-center justify-center w-full mx-auto py-6 h-[400px] overflow-hidden ">
-      <div className="flex items-center justify-center w-fit">
+    <div className="relative  flex items-center justify-center w-[1200px]  py-6 h-[400px] ">
+      <div className="flex items-center justify-center w-fit ">
         {/* First Video */}
         <div className=" relative z-10 scale-90 hover:scale-95 opacity-100 translate-x-28 lg:translate-x-14 -rotate-[25deg] transition-all duration-300 p-4 ease-in-out rounded-md">
           <video

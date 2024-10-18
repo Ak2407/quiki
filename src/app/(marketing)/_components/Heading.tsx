@@ -1,6 +1,6 @@
 import { RoughNotation } from "react-rough-notation";
 
-const Header = () => {
+const Heading = () => {
   return (
     <div className="w-full ">
       <h1 className="text-4xl lg:text-5xl  font-black text-center lg:text-left text-neutral-700 ">
@@ -22,4 +22,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Heading;
