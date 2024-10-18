@@ -12,10 +12,10 @@ export default function Terms() {
       </div>
       <div className="flex flex-col gap-8 items-start justify-evenly w-[95%] pt-10 ">
         <p>
-          Welcome to Quiki! These Terms of Service ("Terms") govern your use of
-          our website and services. By accessing or using Quiki, you agree to be
-          bound by these Terms. If you do not agree with any part of these
-          Terms, please do not use our website or services.
+          Welcome to Quiki! These Terms of Service (&quot;Terms&quot;) govern
+          your use of our website and services. By accessing or using Quiki, you
+          agree to be bound by these Terms. If you do not agree with any part of
+          these Terms, please do not use our website or services.
         </p>
         <section className="flex flex-col gap-6 items-start justify-center w-full">
           <h1 className="text-2xl text-sky-700 font-bold">User Content</h1>
@@ -61,12 +61,12 @@ export default function Terms() {
         <section className="flex flex-col gap-6 items-start justify-center w-full">
           <h1 className="text-2xl text-sky-700 font-bold">Disclaimers</h1>
           <p>
-            Quiki is provided "as is" and without warranties of any kind,
-            whether express or implied. We do not guarantee that our website or
-            services will be error-free, uninterrupted, or secure. Your use of
-            Quiki is at your own risk, and you assume full responsibility for
-            any damages or losses that may result from your use of our website
-            or services.
+            Quiki is provided &quot;as is&quot; and without warranties of any
+            kind, whether express or implied. We do not guarantee that our
+            website or services will be error-free, uninterrupted, or secure.
+            Your use of Quiki is at your own risk, and you assume full
+            responsibility for any damages or losses that may result from your
+            use of our website or services.
           </p>
         </section>
         <section className="flex flex-col gap-6 items-start justify-center w-full">

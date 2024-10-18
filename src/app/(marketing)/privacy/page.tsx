@@ -26,7 +26,7 @@ const Privacy = () => {
             When you use Quiki, we may collect certain personally identifiable
             information, such as your name, email address, and phone number. If
             you choose to integrate our service with Google, we may also collect
-            Google user data as permitted by you through Google's consent
+            Google user data as permitted by you through Google&apos;s consent
             process.
             <br />
             <br />
@@ -105,7 +105,7 @@ const Privacy = () => {
         </section>
         <section className="flex flex-col gap-6 items-start justify-center w-full">
           <h1 className="text-2xl text-sky-700 font-bold">
-            Children's Privacy
+            Children&apos;s Privacy
           </h1>
           <p>
             Quiki is not intended for use by children under the age of 13. We do
@@ -120,9 +120,9 @@ const Privacy = () => {
           </h1>
           <p>
             We may update this Privacy Policy from time to time. When we make
-            changes, we will revise the "last updated" date at the top of the
-            policy. We encourage you to review this policy periodically to stay
-            informed about how we protect your privacy.
+            changes, we will revise the &quot;last updated&quot; date at the top
+            of the policy. We encourage you to review this policy periodically
+            to stay informed about how we protect your privacy.
           </p>
         </section>
         <section className="flex flex-col gap-6 items-start justify-center w-full">
