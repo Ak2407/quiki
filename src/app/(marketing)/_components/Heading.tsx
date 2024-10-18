@@ -3,7 +3,7 @@ import { RoughNotation } from "react-rough-notation";
 const Heading = () => {
   return (
     <div className="w-full ">
-      <h1 className="text-4xl lg:text-5xl  font-black text-center lg:text-left text-neutral-700 ">
+      <h1 className="text-3xl lg:text-5xl  font-black text-center lg:text-left text-neutral-700 ">
         Make AI Generated
         <span>
           <RoughNotation
