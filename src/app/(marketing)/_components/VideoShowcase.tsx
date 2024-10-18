@@ -5,12 +5,15 @@ import { CornerLeftDownIcon, CornerRightUpIcon } from "lucide-react";
 const videos = [
   {
     url: "https://delivery.copycopter.ai/lpexamples0823/one_compressed.mp4",
+    title: "Save time with automation",
   },
   {
     url: "https://delivery.copycopter.ai/lpexamples0823/middle_compressed.mp4",
+    title: "AI powered, unique video creation",
   },
   {
     url: "https://delivery.copycopter.ai/lpexamples0823/two_compressed.mp4",
+    title: "No editing skills required",
   },
 ];
 
@@ -30,7 +33,7 @@ export default function VideoDisplay() {
           <div className="absolute -top-6 left-6 gap-2  text-neutral-700 flex items-end justify-center ">
             <CornerLeftDownIcon className="h-6 w-6" />
             <h1 className="text-xs font-semibold max-w-24 ">
-              Boost your SEO with videos
+              {videos[0].title}
             </h1>
           </div>
         </div>
@@ -47,7 +50,7 @@ export default function VideoDisplay() {
           <div className="absolute -bottom-6 -left-6  gap-2 text-neutral-700 flex flex-row-reverse items-end justify-center">
             <CornerRightUpIcon className="h-6 w-6" />
             <h1 className="text-xs font-semibold max-w-40 ">
-              Engage your audience with next-gen content
+              {videos[1].title}
             </h1>
           </div>
         </div>
@@ -64,7 +67,7 @@ export default function VideoDisplay() {
           <div className="absolute -top-6 right-6 gap-2  text-neutral-700 items-end justify-center flex">
             <CornerLeftDownIcon className="h-6 w-6" />
             <h1 className="text-xs font-semibold max-w-24 ">
-              Get traffic with faceless videos
+              {videos[2].title}
             </h1>
           </div>
         </div>
