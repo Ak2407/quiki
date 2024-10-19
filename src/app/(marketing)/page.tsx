@@ -5,13 +5,15 @@ import VideoShowcase from "./_components/VideoShowcase";
 
 export default function Home() {
   return (
-    <div className=" xl:w-[90%] flex flex-col lg:flex-row items-center justify-between mx-auto p-6 overflow-hidden ">
-      <div className="flex flex-col gap-6 lg:items-start items-center justify-start w-full">
-        <Heading />
-        <SubHeading />
-        <CTA />
+    <div className=" xl:w-[90%] flex flex-col items-center  mx-auto p-6 overflow-hidden ">
+      <div className="flex flex-col lg:flex-row gap-6 justify-between items-center w-full">
+        <div className="flex flex-col gap-6 lg:items-start items-center justify-start w-full">
+          <Heading />
+          <SubHeading />
+          <CTA />
+        </div>
+        <VideoShowcase />
       </div>
-      <VideoShowcase />
     </div>
   );
 }
