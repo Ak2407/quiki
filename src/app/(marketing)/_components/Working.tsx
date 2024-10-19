@@ -76,7 +76,7 @@ const Working = () => {
               </div>
               <div className="flex flex-row items-center gap-2 w-full">
                 <CircleCheckIcon className="h-4 w-4 text-sky-700" />
-                <p>Re-generate the AI images if you don't like them.</p>
+                <p>Re-generate the AI images if you do not like them.</p>
               </div>
             </div>
           </div>
