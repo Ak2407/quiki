@@ -83,7 +83,7 @@ export default function Examples() {
     >
       <div className="container mx-auto p-4 max-w-7xl">
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-4">Examples</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Examples</h1>
           <p className="text-sm sm:text-xl text-neutral-500">
             Here are some <span className="text-neutral-800">use cases</span> of
             what you can create with Quiki.
@@ -97,7 +97,6 @@ export default function Examples() {
                 key={index}
               >
                 <video
-                  autoPlay
                   muted
                   loop
                   src={video.url}

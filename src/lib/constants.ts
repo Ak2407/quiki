@@ -1,12 +1,12 @@
 export const Navbaritems = [
   {
-    name: "Working",
-    href: "#working",
+    name: "Examples",
+    href: "#examples",
   },
 
   {
-    name: "Examples",
-    href: "#examples",
+    name: "Working",
+    href: "#working",
   },
 
   {
