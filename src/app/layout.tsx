@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${dmSans.className} antialiased`}>
+        <body className={`${dmSans.className} antialiased scroll-smooth`}>
           {children}
           <Toaster />
         </body>

@@ -1,19 +1,11 @@
-import CTA from "./_components/CTA";
-import Heading from "./_components/Heading";
-import SubHeading from "./_components/SubHeading";
-import VideoShowcase from "./_components/VideoShowcase";
+import Examples from "./_components/Examples";
+import Hero from "./_components/Hero";
 
 export default function Home() {
   return (
-    <div className=" xl:w-[90%] flex flex-col items-center  mx-auto p-6 overflow-hidden ">
-      <div className="flex flex-col lg:flex-row gap-6 justify-between items-center w-full">
-        <div className="flex flex-col gap-6 lg:items-start items-center justify-start w-full">
-          <Heading />
-          <SubHeading />
-          <CTA />
-        </div>
-        <VideoShowcase />
-      </div>
+    <div className=" xl:w-[90%] flex flex-col items-center mx-auto p-6 overflow-hidden gap-10 ">
+      <Hero />
+      <Examples />
     </div>
   );
 }
