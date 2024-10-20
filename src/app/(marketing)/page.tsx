@@ -1,4 +1,5 @@
 import Examples from "./_components/Examples";
+import FAQ from "./_components/FAQ";
 import Features from "./_components/Features";
 import Hero from "./_components/Hero";
 import Working from "./_components/Working";
@@ -10,6 +11,7 @@ export default function Home() {
       <Examples />
       <Working />
       <Features />
+      <FAQ />
     </div>
   );
 }
