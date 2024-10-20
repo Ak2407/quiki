@@ -76,7 +76,7 @@ const Working = () => {
 const StepBox = ({ step }: { step: Step }) => {
   return (
     <section
-      className={`flex flex-col ${step.number % 2 === 0 ? "justify-start" : "justify-end"} lg:flex-row  gap-8  w-full xl:w-[80%]  `}
+      className={`flex flex-col ${step.number % 2 === 0 ? "justify-start" : "justify-end"} lg:flex-row gap-8 w-full xl:w-[80%]`}
     >
       <div className="flex items-start justify-start flex-col gap-2">
         <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
@@ -98,11 +98,13 @@ const StepBox = ({ step }: { step: Step }) => {
           ))}
         </div>
       </div>
-      <img
-        src={step.image}
-        alt="step"
-        className=" max-w-[500px] aspect-auto mx-auto"
-      />
+      <div className="">
+        <img
+          src={step.image}
+          alt="step"
+          className="sm:max-w-[500px]  mx-auto border rounded-md shadow"
+        />
+      </div>
     </section>
   );
 };
