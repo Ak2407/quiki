@@ -7,7 +7,7 @@ import Working from "./_components/Working";
 
 export default function Home() {
   return (
-    <div className="w-full  flex flex-col items-center mx-auto  overflow-hidden gap-20 ">
+    <div className="w-full  flex flex-col items-center mx-auto  overflow-hidden gap-20 py-10 ">
       <Hero />
       <Examples />
       <Working />
