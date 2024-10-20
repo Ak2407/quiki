@@ -53,7 +53,7 @@ const Working = () => {
   return (
     <div
       id="working"
-      className="flex flex-col items-center justify-center w-full gap-20"
+      className="flex flex-col items-center justify-center w-full gap-20 p-10"
     >
       <div className="text-center mb-8">
         <h1 className="text-3xl sm:text-4xl font-bold mb-4">

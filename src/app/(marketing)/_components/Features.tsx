@@ -26,7 +26,7 @@ const Features = () => {
           of features to make your videos stand out.
         </p>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto lg:w-[80%]">
         {/* Main Feature */}
         <Card className="row-span-2 sm:col-span-2 flex flex-col justify-between p-4 sm:p-6 bg-sky-700/30 backdrop-blur-md border border-sky-600/50 text-white shadow-lg">
           <div>

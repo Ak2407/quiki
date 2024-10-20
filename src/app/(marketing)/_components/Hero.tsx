@@ -5,7 +5,7 @@ import VideoShowcase from "./VideoShowcase";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col lg:flex-row gap-6 justify-between items-center w-full overflow-hidden ">
+    <div className="flex flex-col lg:flex-row gap-6 justify-between items-center w-full overflow-hidden py-10 px-4 lg:px-10  ">
       <div className="flex flex-col  gap-4 lg:items-start items-center justify-start w-full">
         <Heading />
         <SubHeading />
