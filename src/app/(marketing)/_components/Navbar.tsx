@@ -20,7 +20,7 @@ const Navbar = () => {
   const { isSignedIn } = useUser();
 
   return (
-    <div className="flex flex-row items-center justify-between border-b min-h-[57px] px-6 sticky top-0 bg-white gap-4 z-[50] ">
+    <div className="flex flex-row items-center justify-between border-b min-h-[57px] px-6 sticky top-0 bg-white gap-4 z-[9999] ">
       <Menu isOpen={isOpen} onClose={onClose} />
       <div className="flex items-center justify-center gap-10">
         <Logo />
