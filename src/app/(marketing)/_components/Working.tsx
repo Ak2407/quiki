@@ -1,4 +1,5 @@
 import { CircleCheckIcon } from "lucide-react";
+import CTA from "./CTA";
 
 type Step = {
   number: number;
@@ -68,6 +69,11 @@ const Working = () => {
         {steps.map((step, index) => (
           <StepBox key={index} step={step} />
         ))}
+      </div>
+      <div className="flex flex-col items-center justify-center w-full gap-4">
+        <h1 className="font-bold text-2xl lg:text-2xl">Easy enough?</h1>
+        <p className="text-sm">Make your own video with just 3 steps.</p>
+        <CTA />
       </div>
     </div>
   );

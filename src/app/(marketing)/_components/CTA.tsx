@@ -7,7 +7,7 @@ import Link from "next/link";
 const CTA = () => {
   const { session } = useSession();
   return (
-    <div className="flex flex-col gap-2 items-center justify-center w-[50%]">
+    <div className="flex flex-col gap-2 items-center justify-center w-full max-w-[300px]">
       <Link href="/dashboard" className="w-full">
         <Button variant="primary" className="w-full py-6 text-lg">
           {session ? <h1>Dashboard</h1> : <h1>Get Started</h1>}
