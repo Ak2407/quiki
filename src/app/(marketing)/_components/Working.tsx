@@ -55,14 +55,13 @@ const Working = () => {
       id="working"
       className="flex flex-col items-center justify-center w-full gap-20"
     >
-      <div className="flex flex-col items-center justify-center w-full gap-4">
-        <h1 className="text-3xl lg:text-4xl font-bold">
+      <div className="text-center mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold mb-4">
           Steps to create video:
         </h1>
-        <p className="">
-          Creating video with Quiki is as{" "}
-          <span className="text-neutral-700 font-semibold">easy</span> as 3
-          steps.
+        <p className="text-sm sm:text-xl text-neutral-500">
+          Creating videos with Quiki comes down to{" "}
+          <span className="text-neutral-800">3 simple steps.</span>
         </p>
       </div>
       <div className="flex flex-col items-center justify-center w-full gap-20 lg:gap-40 ">

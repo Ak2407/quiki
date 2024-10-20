@@ -10,6 +10,11 @@ export const Navbaritems = [
   },
 
   {
+    name: "Features",
+    href: "#features",
+  },
+
+  {
     name: "FAQ",
     href: "#faq",
   },

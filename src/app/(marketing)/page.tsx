@@ -1,4 +1,5 @@
 import Examples from "./_components/Examples";
+import Features from "./_components/Features";
 import Hero from "./_components/Hero";
 import Working from "./_components/Working";
 
@@ -8,6 +9,7 @@ export default function Home() {
       <Hero />
       <Examples />
       <Working />
+      <Features />
     </div>
   );
 }
