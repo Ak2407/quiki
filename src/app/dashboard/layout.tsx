@@ -1,5 +1,6 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { DashboardSidebar } from "./_components/Sidebar";
+import SidebarMenu from "./billing/_components/sidebarMenu";
 
 export default function DashboardLayout({
   children,
@@ -9,8 +10,12 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <DashboardSidebar />
-      <main className="w-full p-8 relative ">
-        <SidebarTrigger className="h-5 w-5 absolute top-2 left-2" />
+      <main className="w-full  ">
+        <div className="sticky ml-2 top-2 hidden sm:block ">
+          <SidebarTrigger className="h-5 w-5  " />
+        </div>
+        <SidebarMenu />
+
         {children}
       </main>
     </SidebarProvider>
