@@ -43,8 +43,8 @@ const items = [
   },
 
   {
-    title: "Membership",
-    url: "/dashboard/membership",
+    title: "Billing",
+    url: "/dashboard/billing",
     icon: GaugeIcon,
   },
 ];
