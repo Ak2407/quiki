@@ -4,10 +4,12 @@ import { Separator } from "@/components/ui/separator";
 
 const Connected = () => {
   return (
-    <div className="flex flex-col  gap-4 w-full  p-4">
-      <h1 className="text-xl font-medium">Connected Accounts</h1>
-      <Separator className="w-full" />
-      <div className="grid gap-6 md:grid-cols-2 max-w-4xl p-4">
+    <div className="flex flex-col  gap-4 w-full   lg:p-4">
+      <div className="w-full space-y-4">
+        <h1 className="text-xl font-medium">Connected Account</h1>
+        <Separator className="w-full" />
+      </div>
+      <div className="grid gap-6 md:grid-cols-2 max-w-4xl  ">
         <Card>
           <CardHeader className="flex flex-row items-center gap-2">
             <svg
