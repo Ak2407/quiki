@@ -25,6 +25,8 @@ import {
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
+import { useFeedback } from "@/hooks/use-feedback";
+import FeedbackModal from "@/components/modals/feedback";
 
 // Menu items.
 const items = [
@@ -44,11 +46,6 @@ const items = [
     title: "Membership",
     url: "/dashboard/membership",
     icon: GaugeIcon,
-  },
-  {
-    title: "Feedback",
-    url: "/dashboard/feedback",
-    icon: MessageCircle,
   },
 ];
 
@@ -76,9 +73,14 @@ export function DashboardSidebar() {
   const { user } = useUser();
   const pathname = usePathname();
 
+  const open = useFeedback((state) => state.isOpen);
+  const onOpen = useFeedback((state) => state.onOpen);
+  const onClose = useFeedback((state) => state.onClose);
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
+        <FeedbackModal open={open} onClose={onClose} />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
@@ -112,6 +114,15 @@ export function DashboardSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <button onClick={onOpen}>
+                    <MessageCircle />
+                    <span>Feedback</span>
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
