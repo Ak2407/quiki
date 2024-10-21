@@ -1,7 +1,11 @@
+import Connected from "./_components/Connected";
+import Title from "./_components/Title";
+
 const Dashboard = () => {
   return (
-    <div>
-      <h1>Hello</h1>
+    <div className="flex w-full flex-col gap-10 ">
+      <Title />
+      <Connected />
     </div>
   );
 };

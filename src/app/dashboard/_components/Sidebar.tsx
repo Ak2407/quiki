@@ -30,7 +30,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 const items = [
   {
     title: "Create",
-    url: "/dashboard",
+    url: "/dashboard/create",
     icon: BadgePlusIcon,
   },
 
