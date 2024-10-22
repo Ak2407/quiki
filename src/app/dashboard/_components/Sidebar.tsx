@@ -32,7 +32,7 @@ import FeedbackModal from "@/components/modals/feedback";
 const items = [
   {
     title: "Create",
-    url: "/dashboard/create",
+    url: "/create",
     icon: BadgePlusIcon,
   },
 

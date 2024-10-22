@@ -21,8 +21,8 @@ const Connected = () => {
           </CardHeader>
           <CardContent className="grid gap-4">
             <p className="text-sm text-muted-foreground">
-              Connect Instagram accounts to allow EasyShorts to publish your
-              photo series on your behalf.
+              Connect Instagram accounts to allow Quiki to publish your photo
+              series on your behalf.
             </p>
             <Button
               disabled
@@ -47,7 +47,7 @@ const Connected = () => {
           </CardHeader>
           <CardContent className="grid gap-4">
             <p className="text-sm text-muted-foreground">
-              Connect YouTube channels to allow EasyShorts to publish your video
+              Connect YouTube channels to allow Quiki to publish your video
               series on your behalf.
             </p>
             <Button
