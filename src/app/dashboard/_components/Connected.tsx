@@ -1,14 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import HeaderBar from "./HeaderBar";
 
 const Connected = () => {
   return (
     <div className="flex flex-col  gap-4 w-full   lg:p-4">
-      <div className="w-full space-y-4">
-        <h1 className="text-xl font-medium">Connected Account</h1>
-        <Separator className="w-full" />
-      </div>
+      <HeaderBar title="Connected Account" />
       <div className="grid gap-6 md:grid-cols-2 max-w-4xl  ">
         <Card>
           <CardHeader className="flex flex-row items-center gap-2">
