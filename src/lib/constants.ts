@@ -72,3 +72,22 @@ export const FAQitems = [
       "Currently, our AI Shorts Generator is free to use. We may introduce premium features in the future for advanced customization options.",
   },
 ];
+
+export const steps = [
+  {
+    title: "Choose a Topic",
+  },
+  {
+    title: "Choose a Language",
+  },
+  {
+    title: "Choose a Voice",
+  },
+  {
+    title: "Choose Subtitle Style",
+  },
+  ,
+  {
+    title: "Review",
+  },
+];
