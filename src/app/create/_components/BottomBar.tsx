@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { steps } from "@/lib/constants";
+import Link from "next/link";
 
 type BottomBarProps = {
   step: number;
@@ -33,14 +34,16 @@ const BottomBar = ({ step, setStep }: BottomBarProps) => {
       >
         Next
       </Button>
-      <Button
-        variant="primary"
-        className={`w-full lg:w-[500px] ${isLastStep ? "block" : "hidden"}`}
-        onClick={onBack}
-        disabled={step === 0}
-      >
-        Finish
-      </Button>
+      <Link href="/dashboard">
+        <Button
+          variant="primary"
+          className={`w-full lg:w-[500px] ${isLastStep ? "block" : "hidden"}`}
+          onClick={onBack}
+          disabled={step === 0}
+        >
+          Finish
+        </Button>
+      </Link>
     </div>
   );
 };
