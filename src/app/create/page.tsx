@@ -28,11 +28,46 @@ const CreatePage = () => {
           <Topic />
         </div>
       )}
-      {step === 1 && <Language />}
-      {step === 2 && <Voice />}
-      {step === 3 && <Subtitle />}
-      {step === 4 && <Review />}
+      {step === 1 && (
+        <div className="flex flex-col gap-10">
+          <h1 className="text-2xl font-bold text-center">
+            {" "}
+            {steps[step].title}
+          </h1>
 
+          <Language />
+        </div>
+      )}
+      {step === 2 && (
+        <div className="flex flex-col gap-10">
+          <h1 className="text-2xl font-bold text-center">
+            {" "}
+            {steps[step].title}
+          </h1>
+
+          <Voice />
+        </div>
+      )}
+      {step === 3 && (
+        <div className="flex flex-col gap-10">
+          <h1 className="text-2xl font-bold text-center">
+            {" "}
+            {steps[step].title}
+          </h1>
+
+          <Subtitle />
+        </div>
+      )}
+      {step === 4 && (
+        <div className="flex flex-col gap-10">
+          <h1 className="text-2xl font-bold text-center">
+            {" "}
+            {steps[step].title}
+          </h1>
+
+          <Review />
+        </div>
+      )}
       <div className="fixed bottom-0 left-0 right-0 w-full">
         <BottomBar step={step} setStep={setStep} />
       </div>
