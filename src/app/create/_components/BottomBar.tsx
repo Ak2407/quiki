@@ -21,7 +21,7 @@ const BottomBar = ({ step, setStep }: BottomBarProps) => {
     <div className="w-full h-24 px-4 bg-gray-50 border-t flex items-center justify-center gap-2">
       <Button
         variant="outline"
-        className="w-full lg:w-[500px]  "
+        className="w-full lg:w-[500px] "
         onClick={onBack}
         disabled={step === 0}
       >
@@ -34,10 +34,13 @@ const BottomBar = ({ step, setStep }: BottomBarProps) => {
       >
         Next
       </Button>
-      <Link href="/dashboard">
+      <Link
+        href="/dashboard"
+        className={`w-full lg:w-[500px] ${isLastStep ? "block" : "hidden"}`}
+      >
         <Button
           variant="primary"
-          className={`w-full lg:w-[500px] ${isLastStep ? "block" : "hidden"}`}
+          className="w-full"
           onClick={onBack}
           disabled={step === 0}
         >
