@@ -1,29 +1,25 @@
-import { Button } from "@/components/ui/button";
 import { CheckIcon } from "lucide-react";
 
 export const SelectButton = ({
-  text,
-  emoji,
+  children,
   isSelected,
   onSelect,
 }: {
-  text: string;
-  emoji?: string;
+  children: React.ReactNode;
   isSelected: boolean;
   onSelect: () => void;
 }) => {
   return (
-    <Button
-      variant="outline"
+    <button
       onClick={onSelect}
-      className={`relative flex flex-col gap-2 items-center justify-center p-5 lg:w-40 w-full h-40 ${
+      className={` relative flex flex-col gap-2 items-center p-4 justify-center lg:w-40 w-full h-40 ${
         isSelected
           ? "bg-sky-200 border-sky-400 hover:bg-sky-200 shadow-lg"
           : "hover:bg-gray-100"
       } border rounded-lg cursor-pointer transition-all ease-in-out duration-200 text-center`}
     >
-      <h1 className="font-semibold">{text}</h1>
-      {emoji && <p className="text-4xl">{emoji}</p>}
+      {children}
+
       <div
         className={`absolute top-2 left-2 rounded-full h-6 w-6 bg-sky-700 flex items-center justify-center ${
           isSelected ? "" : "hidden"
@@ -31,6 +27,6 @@ export const SelectButton = ({
       >
         <CheckIcon className="h-4 w-4 text-white" />
       </div>
-    </Button>
+    </button>
   );
 };

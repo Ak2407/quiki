@@ -28,11 +28,16 @@ export default function Topic() {
       {topics.map((topic, index) => (
         <SelectButton
           key={index}
-          text={topic.text}
-          emoji={topic.emoji}
           isSelected={selectedTopic === topic.text}
           onSelect={() => setSelectedTopic(topic.text)}
-        />
+        >
+          <span className="w-full flex flex-col gap-2 item-center justify-center ">
+            <h1 className="text-base text-center font-semibold">
+              {topic.text}
+            </h1>
+            <p className="text-xl">{topic.emoji}</p>
+          </span>
+        </SelectButton>
       ))}
     </div>
   );

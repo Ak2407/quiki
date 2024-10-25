@@ -33,11 +33,14 @@ export default function Language() {
       {languages.map((lang, index) => (
         <SelectButton
           key={index}
-          text={lang.text}
-          emoji={lang.emoji}
           isSelected={selectedLang === lang.text}
           onSelect={() => setSelectedLang(lang.text)}
-        />
+        >
+          <span className="w-full flex flex-col gap-2 itec-center justify-center ">
+            <h1 className="text-base text-center font-semibold">{lang.text}</h1>
+            <p className="text-xl">{lang.emoji}</p>
+          </span>
+        </SelectButton>
       ))}
     </div>
   );
