@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { SelectButton } from "./SelectButton";
 
 const topics = [
@@ -20,9 +19,12 @@ const topics = [
   { text: "Custom", emoji: "✍️" },
 ];
 
-export default function Topic() {
-  const [selectedTopic, setSelectedTopic] = useState<string>("");
+type TopicProps = {
+  selectedTopic: string;
+  setSelectedTopic: (topic: string) => void;
+};
 
+export default function Topic({ selectedTopic, setSelectedTopic }: TopicProps) {
   return (
     <div className="flex flex-row flex-wrap items-center lg:grid grid-cols-5 gap-4 overflow-auto h-full">
       {topics.map((topic, index) => (

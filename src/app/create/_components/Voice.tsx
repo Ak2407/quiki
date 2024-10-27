@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { SelectButton } from "./SelectButton";
 import { CirclePlayIcon } from "lucide-react";
 
@@ -13,9 +12,12 @@ const voices = [
   { text: "Shimmer" },
 ];
 
-export default function Voice() {
-  const [selectedVoice, setSelectedVoice] = useState<string>("");
+type VoiceProps = {
+  selectedVoice: string;
+  setSelectedVoice: (voice: string) => void;
+};
 
+export default function Voice({ selectedVoice, setSelectedVoice }: VoiceProps) {
   return (
     <div className="flex flex-row flex-wrap items-center lg:grid grid-cols-5 gap-4 overflow-auto h-full">
       {voices.map((voice, index) => (

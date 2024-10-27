@@ -5,9 +5,10 @@ import Link from "next/link";
 type BottomBarProps = {
   step: number;
   setStep: (step: number) => void;
+  nextDisabled?: boolean;
 };
 
-const BottomBar = ({ step, setStep }: BottomBarProps) => {
+const BottomBar = ({ step, setStep, nextDisabled = false }: BottomBarProps) => {
   const onBack = () => {
     setStep(step - 1);
   };
@@ -31,6 +32,7 @@ const BottomBar = ({ step, setStep }: BottomBarProps) => {
         variant="primary"
         className={`w-full lg:w-[500px] ${isLastStep ? "hidden" : "block"}`}
         onClick={onNext}
+        disabled={nextDisabled}
       >
         Next
       </Button>

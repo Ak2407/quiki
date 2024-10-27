@@ -11,6 +11,9 @@ import { steps } from "@/lib/constants";
 
 const CreatePage = () => {
   const [step, setStep] = useState<number>(0);
+  const [selectedTopic, setSelectedTopic] = useState<string>("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const [selectedVoice, setSelectedVoice] = useState<string>("");
 
   const fadeInFromBottom = {
     initial: { opacity: 0, y: 20 },
@@ -34,7 +37,10 @@ const CreatePage = () => {
             <h1 className="text-2xl font-bold text-center">
               {steps[step].title}
             </h1>
-            <Topic />
+            <Topic
+              selectedTopic={selectedTopic}
+              setSelectedTopic={setSelectedTopic}
+            />
           </motion.div>
         )}
         {step === 1 && (
@@ -46,7 +52,10 @@ const CreatePage = () => {
             <h1 className="text-2xl font-bold text-center">
               {steps[step].title}
             </h1>
-            <Language />
+            <Language
+              selectedLanguage={selectedLanguage}
+              setSelectedLanguage={setSelectedLanguage}
+            />
           </motion.div>
         )}
         {step === 2 && (
@@ -58,7 +67,10 @@ const CreatePage = () => {
             <h1 className="text-2xl font-bold text-center">
               {steps[step].title}
             </h1>
-            <Voice />
+            <Voice
+              selectedVoice={selectedVoice}
+              setSelectedVoice={setSelectedVoice}
+            />
           </motion.div>
         )}
       </AnimatePresence>
