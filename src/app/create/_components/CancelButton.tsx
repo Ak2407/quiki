@@ -1,39 +1,84 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import Link from "next/link";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 const CancelButton = () => {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger className=" p-2 hover:underline underline-offset-4 ">
-        Back To Dashboard
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. All your unsaved progress will be
-            deleted if you wish to go back.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 640); // Adjust this value as needed
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const content = (
+    <>
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold">Are you absolutely sure?</h2>
+        <p className="text-sm text-muted-foreground">
+          This action cannot be undone. All your unsaved progress will be
+          deleted if you wish to go back.
+        </p>
+      </div>
+      <div className="flex justify-end gap-3">
+        {isSmallScreen ? (
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        ) : (
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Link href="/dashboard">
-            <AlertDialogAction className="bg-red-500 hover:bg-red-600">
-              Continue
-            </AlertDialogAction>
-          </Link>
-        </AlertDialogFooter>
-      </AlertDialogContent>
+        )}
+        <Link href="/dashboard">
+          <Button variant="destructive">Continue</Button>
+        </Link>
+      </div>
+    </>
+  );
+
+  return isSmallScreen ? (
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button
+          variant="ghost"
+          className="p-2 hover:underline underline-offset-4"
+        >
+          Back To Dashboard
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="p-4">{content}</div>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="ghost"
+          className="p-2 hover:underline underline-offset-4"
+        >
+          Back To Dashboard
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>{content}</AlertDialogContent>
     </AlertDialog>
   );
 };

@@ -1,39 +1,76 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import Link from "next/link";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
 
 const DeleteVideoBtn = () => {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700">
-        Delete
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action will delete this video from your account. This action is
-            irreversible.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 640); // Adjust this value as needed
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  const content = (
+    <>
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold">Are you absolutely sure?</h2>
+        <p className="text-sm text-muted-foreground">
+          This action will delete this video from your account. This action is
+          irreversible.
+        </p>
+      </div>
+      <div className="flex justify-end gap-3">
+        {isSmallScreen ? (
+          <DrawerClose asChild>
+            <Button variant="outline">Cancel</Button>
+          </DrawerClose>
+        ) : (
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Link href="/dashboard/library">
-            <AlertDialogAction className="bg-red-500 hover:bg-red-600">
-              Continue
-            </AlertDialogAction>
-          </Link>
-        </AlertDialogFooter>
-      </AlertDialogContent>
+        )}
+        <Link href="/dashboard/library">
+          <Button variant="destructive">Continue</Button>
+        </Link>
+      </div>
+    </>
+  );
+
+  const triggerButton = (
+    <Button variant="destructive" size="sm">
+      Delete
+    </Button>
+  );
+
+  return isSmallScreen ? (
+    <Drawer>
+      <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
+      <DrawerContent>
+        <div className="p-4">{content}</div>
+      </DrawerContent>
+    </Drawer>
+  ) : (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>{triggerButton}</AlertDialogTrigger>
+      <AlertDialogContent>{content}</AlertDialogContent>
     </AlertDialog>
   );
 };
