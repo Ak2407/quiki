@@ -47,8 +47,10 @@ const Connected = () => {
           </CardHeader>
           <CardContent className="grid gap-4">
             <p className="text-sm text-muted-foreground">
-              Connect YouTube channels to allow Quiki to publish your video
-              series on your behalf.
+              Connect YouTube channels to allow
+              Quiki/var/folders/q1/zfx6z9b111d9tzj_trpzt3vh0000gn/T/TemporaryItems/NSIRD_screencaptureui_YUVmdI/Screenshot\
+              2024-10-22\ at\ 11.11.51 AM.png to publish your video series on
+              your behalf.
             </p>
             <Button
               disabled
