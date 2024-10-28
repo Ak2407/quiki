@@ -6,7 +6,7 @@ import { ElementRef, useRef, useState } from "react";
 
 const TitleForm = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [title, setTitle] = useState<string | undefined>(undefined);
+  const [title, setTitle] = useState<string | undefined>("Scary Stories");
 
   const formRef = useRef<ElementRef<"form">>(null);
   const inputRef = useRef<ElementRef<"input">>(null);
