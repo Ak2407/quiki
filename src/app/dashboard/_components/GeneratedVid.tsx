@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const GeneratedVid = () => {
   return (
-    <Link href="/dashboard/create" className="w-full lg:w-fit">
+    <Link href="/dashboard/1" className="w-full lg:w-fit">
       <div className="w-full lg:w-fit ">
         <Card className="w-full lg:w-[300px] h-[150px] hover:bg-gray-50 transition-all duration-200 ease-in-out ">
           <CardContent className="p-4 space-y-6">

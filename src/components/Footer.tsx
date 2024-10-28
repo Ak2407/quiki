@@ -16,7 +16,7 @@ const Footer = () => {
       <p className="text-sm text-zinc-500">
         © 2024 Quiki. All rights reserved.
       </p>
-      <div className="flex items-center justify-center gap-4">
+      <div className=" flex flex-wrap items-center justify-center ">
         <Link href="/terms">
           <Button
             variant="link"
@@ -39,6 +39,32 @@ const Footer = () => {
             }
           >
             Privacy Policy
+          </Button>
+        </Link>
+
+        <Link href="/cancellation">
+          <Button
+            variant="link"
+            className={
+              pathname === "/cancellation"
+                ? "text-zinc-800"
+                : "text-zinc-500 hover:text-zinc-800"
+            }
+          >
+            Cancellation and Refund
+          </Button>
+        </Link>
+
+        <Link href="/contact">
+          <Button
+            variant="link"
+            className={
+              pathname === "/contact"
+                ? "text-zinc-800"
+                : "text-zinc-500 hover:text-zinc-800"
+            }
+          >
+            Contact Us
           </Button>
         </Link>
       </div>
