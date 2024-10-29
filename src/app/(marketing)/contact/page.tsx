@@ -11,7 +11,7 @@ export default function Contact() {
       <Card className="w-full max-w-4xl">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-sky-700">
-            Get in Touch
+            Contact Us for Queries
           </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-6 lg:grid-cols-2">
