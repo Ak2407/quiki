@@ -29,7 +29,7 @@ const Connected = () => {
               variant="default"
               className="bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-pink-600 hover:via-purple-600 hover:to-indigo-600"
             >
-              Coming Soon
+              Coming Soon..
             </Button>
           </CardContent>
         </Card>
@@ -55,7 +55,7 @@ const Connected = () => {
               variant="default"
               className="bg-red-500 hover:bg-red-600"
             >
-              Coming Soon
+              Coming Soon..
             </Button>
           </CardContent>
         </Card>
