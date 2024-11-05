@@ -9,8 +9,8 @@ import Link from "next/link";
 import { useEffect } from "react";
 import SocialButtons from "./SocialButtons";
 import Logo from "@/components/Logo";
-import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
 
 type MenuProps = {
   isOpen: boolean;
@@ -18,7 +18,7 @@ type MenuProps = {
 };
 
 const Menu = ({ isOpen, onClose }: MenuProps) => {
-  const { isSignedIn } = useUser();
+  const { status } = useSession();
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,7 +38,7 @@ const Menu = ({ isOpen, onClose }: MenuProps) => {
   return (
     <Drawer open={isOpen} onClose={onClose}>
       <DrawerContent className="p-4 flex items-center justify-center flex-col gap-10 ">
-        {isSignedIn ? (
+        {status === "authenticated" ? (
           <Link href="/dashboard" className="flex-1 w-full">
             <Button variant="primary" className="text-xs p-[6px] w-full">
               Dashboard

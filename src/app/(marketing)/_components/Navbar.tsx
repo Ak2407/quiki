@@ -10,14 +10,14 @@ import { MenuIcon, MoveRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMenu } from "@/hooks/use-menu";
 import Menu from "./Menu";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 
 const Navbar = () => {
   const isOpen = useMenu((state) => state.isOpen);
   const onOpen = useMenu((state) => state.onOpen);
   const onClose = useMenu((state) => state.onClose);
 
-  const { isSignedIn } = useUser();
+  const { status } = useSession();
 
   return (
     <div className="flex flex-row items-center justify-between border-b min-h-[57px] px-6 sticky top-0 bg-white gap-4 z-[9999] ">
@@ -41,9 +41,8 @@ const Navbar = () => {
         <div className={`hidden lg:block `}>
           <SocialButtons />
         </div>
-        {isSignedIn ? (
+        {status === "authenticated" ? (
           <div className="flex items-center justify-center gap-2 ">
-            <UserButton />
             <Link href="/dashboard" className="hidden sm:block ">
               <Button variant="link" className="text-sm flex gap-2 ">
                 Dashboard

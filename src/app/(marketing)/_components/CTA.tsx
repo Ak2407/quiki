@@ -1,11 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSession } from "@clerk/nextjs";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const CTA = () => {
-  const { session } = useSession();
+  const { status } = useSession();
+  const session = status === "authenticated";
   return (
     <div className="flex flex-col gap-2 items-center justify-center w-full max-w-[300px]">
       <Link href="/dashboard" className="w-full">
