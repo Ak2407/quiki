@@ -48,9 +48,6 @@ export default function FeedbackModal({ open, onClose }: FeedbackModalProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const handleSubmit = () => {
-    console.log({ feedback, sentiment });
-    // Here you would typically send the feedback to your server
-    // Reset the form and close the modal/drawer
     setFeedback("");
     setSentiment(null);
     onClose();

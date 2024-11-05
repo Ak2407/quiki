@@ -84,7 +84,6 @@ const socials = [
 
 export function DashboardSidebar() {
   const { data: session } = useSession();
-  console.log(session);
 
   const pathname = usePathname();
 

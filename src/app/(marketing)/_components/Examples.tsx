@@ -91,11 +91,8 @@ export default function Examples() {
         </div>
         <div className="flex flex-row gap-6 items-center justify-center animate-marquee whitespace-nowrap">
           {videos.map((video, index) => (
-            <>
-              <Card
-                className="w-fit p-2 flex flex-col items-center justify-center gap-2 rounded-none  "
-                key={index}
-              >
+            <div key={index}>
+              <Card className="w-fit p-2 flex flex-col items-center justify-center gap-2 rounded-none  ">
                 <video
                   muted
                   loop
@@ -106,7 +103,7 @@ export default function Examples() {
                   {video.title}
                 </p>
               </Card>
-            </>
+            </div>
           ))}
         </div>
       </div>
