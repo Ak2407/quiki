@@ -5,8 +5,18 @@ import {
   text,
   primaryKey,
   integer,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { relations } from "drizzle-orm";
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
+
+export const subscriptionStatusEnum = pgEnum("subscription_status", [
+  "free",
+  "basic",
+  "pro",
+]);
 
 export const users = pgTable("user", {
   id: text("id")
@@ -16,7 +26,46 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  subscriptionStatus: subscriptionStatusEnum("subscription_status").default(
+    "free",
+  ),
+  subscriptionDate: timestamp("subscription_date", {
+    withTimezone: true,
+  }).defaultNow(),
 });
+
+export const insertUserSchema = createInsertSchema(users);
+export const selectUserSchema = createSelectSchema(users);
+
+export type NewUser = z.infer<typeof insertUserSchema>;
+export type SelectUser = z.infer<typeof selectUserSchema>;
+
+export const videos = pgTable("videos", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text("user_id").references(() => users.id), // Corrected to integer
+  videoUrl: text("video_url").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
+export const insertVideoSchema = createInsertSchema(videos);
+export const selectVideoSchema = createSelectSchema(videos);
+
+export type NewVideo = z.infer<typeof insertVideoSchema>;
+export type SelectVideo = z.infer<typeof selectVideoSchema>;
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  videos: many(videos),
+}));
+
+export const videosRelations = relations(videos, ({ one }) => ({
+  user: one(users, {
+    fields: [videos.userId],
+    references: [users.id],
+  }),
+}));
 
 export const accounts = pgTable(
   "account",

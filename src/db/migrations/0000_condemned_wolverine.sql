@@ -1,3 +1,4 @@
+CREATE TYPE "public"."subscription_status" AS ENUM('free', 'basic', 'pro');--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "account" (
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
@@ -38,6 +39,8 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"email" text,
 	"emailVerified" timestamp,
 	"image" text,
+	"subscription_status" "subscription_status" DEFAULT 'free',
+	"subscription_date" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "user_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
@@ -48,8 +51,13 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 	CONSTRAINT "verificationToken_identifier_token_pk" PRIMARY KEY("identifier","token")
 );
 --> statement-breakpoint
-DROP TABLE "users" CASCADE;--> statement-breakpoint
-DROP TABLE "videos" CASCADE;--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "videos" (
+	"id" text PRIMARY KEY NOT NULL,
+	"user_id" text,
+	"video_url" text NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now()
+);
+--> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "account" ADD CONSTRAINT "account_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
@@ -64,6 +72,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "session" ADD CONSTRAINT "session_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "videos" ADD CONSTRAINT "videos_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
