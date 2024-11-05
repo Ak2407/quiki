@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import { DM_Sans } from "next/font/google";
+import { SessionProvider } from "next-auth/react";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -28,13 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <SessionProvider>
       <html lang="en">
         <body className={`${dmSans.className} antialiased scroll-smooth`}>
           {children}
           <Toaster />
         </body>
       </html>
-    </ClerkProvider>
+    </SessionProvider>
   );
 }
