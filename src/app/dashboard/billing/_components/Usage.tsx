@@ -1,7 +1,24 @@
+import { getSub } from "@/actions";
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
 
-const Usage = () => {
+const Usage = async () => {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  let subscription: string | null = null;
+
+  try {
+    if (userId) {
+      subscription = await getSub(userId);
+    }
+  } catch (error) {
+    toast.error("Error fetching subscription ");
+    console.error("Error fetching subscription ", error);
+  }
+
   return (
     <div className="flex flex-col items-start border rounded-lg max-w-[800px]">
       <div className="flex flex-col gap-6 p-4 border-b w-full">
@@ -9,7 +26,7 @@ const Usage = () => {
           <h1 className="text-xl font-semibold">Plan Summary</h1>
 
           <span className="inline-flex items-center h-[20px] rounded-md bg-gray-50 px-2 py-1 text-xs font-bold text-gray-600 ring-1 ring-inset ring-gray-500/10">
-            Free
+            {subscription?.toUpperCase()}
           </span>
         </div>
         <div className="flex flex-col sm:flex-row justify-between gap-8 w-full">
