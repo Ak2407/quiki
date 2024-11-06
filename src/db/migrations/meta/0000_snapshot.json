@@ -1,5 +1,5 @@
 {
-  "id": "f8287272-45bd-4d25-ae55-d704e2e2bfd8",
+  "id": "74e62dd0-4d77-4c8c-be15-86652f0e09a2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -361,6 +361,24 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "caption": {
+          "name": "caption",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "script": {
+          "name": "script",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "video_url": {
           "name": "video_url",

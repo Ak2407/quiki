@@ -1,4 +1,4 @@
-import { getSub } from "@/actions";
+import { getSub } from "@/actions/get-subscription";
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";

@@ -1,19 +1,25 @@
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-const UpdateForm = () => {
-  const [title, setTitle] = useState("Scary Stories");
-  const [caption, setCaption] = useState(
-    "Dive into Emma's spine-tingling adventure as she faces the shadows lurking in",
-  );
-  const [script, setScript] = useState(
-    "This haunted tale will keep you up at night, trembling under your blankets. In the darkness of the old house, something sinister lurks—a whisper in the shadows that beckons the unwary. Emma, our brave protagonist, stumbled upon this decrepit structure during her search for peace. Instead, she found only chilling silence and the scent of decay. As she stepped inside, the floorboards creaked beneath her weight as if protesting her intrusion. The air turned ice-cold, wrapping around her like a suffocating shroud. A portrait hung crookedly on the wall; its eyes seemed to follow her every move. Emma",
-  );
+type UpdateFormProps = {
+  title: string;
+  caption: string;
+  script: string;
+};
+
+const UpdateForm = ({
+  title: initialTitle,
+  caption: initialCaption,
+  script: initialScript,
+}: UpdateFormProps) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [caption, setCaption] = useState(initialCaption);
+  const [script, setScript] = useState(initialScript);
 
   const limits = {
     title: 100,

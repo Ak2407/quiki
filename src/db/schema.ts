@@ -44,7 +44,10 @@ export const videos = pgTable("videos", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  userId: text("user_id").references(() => users.id), // Corrected to integer
+  userId: text("user_id").references(() => users.id),
+  title: text("title").notNull(),
+  caption: text("caption").notNull(),
+  script: text("script").notNull(),
   videoUrl: text("video_url").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });

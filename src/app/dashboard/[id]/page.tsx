@@ -2,8 +2,12 @@ import VideoHeader from "./_components/VideoHeader";
 import UpgradeAlert from "./_components/UpgradeAlert";
 import UpdateForm from "./_components/UpdateForm";
 import VideoCard from "./_components/VideoCard";
+import { getVideo } from "@/actions/get-video";
 
-export default function VideoPage() {
+export default async function VideoPage() {
+  const vidId = "ac021588-cee8-4028-a90a-33b3e2e2c43f";
+  const video = await getVideo(vidId);
+
   return (
     <div className="flex flex-col gap-4 mx-auto px-4 py-6 max-w-5xl">
       <VideoHeader />
@@ -16,8 +20,12 @@ export default function VideoPage() {
       <UpgradeAlert />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <VideoCard src="https://delivery.copycopter.ai/lpexamples0823/middle_compressed.mp4" />
-        <UpdateForm />
+        <VideoCard src={video.videoUrl} />
+        <UpdateForm
+          title={video.title}
+          caption={video.caption}
+          script={video.script}
+        />
       </div>
     </div>
   );
