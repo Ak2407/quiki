@@ -188,7 +188,7 @@ export function DashboardSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-                side="right"
+                side="top"
                 align="end"
                 sideOffset={4}
               >
@@ -199,7 +199,7 @@ export function DashboardSidebar() {
                         src={session?.user?.image ?? "/default-avatar.png"}
                         alt={session?.user?.name ?? "User"}
                       />
-                      <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                      <AvatarFallback className="rounded-lg">Q</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
                       <span className="truncate font-semibold">
