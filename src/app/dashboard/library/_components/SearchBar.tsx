@@ -1,14 +1,6 @@
 "use client";
 
 import * as React from "react";
-import {
-  CalendarIcon,
-  EnvelopeClosedIcon,
-  FaceIcon,
-  GearIcon,
-  PersonIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons";
 
 import {
   CommandDialog,
@@ -17,12 +9,18 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-export function SearchBar() {
+type SearchBarProps = {
+  title: string;
+  id: string;
+};
+
+export function SearchBar({ videos }: { videos: SearchBarProps[] }) {
+  const router = useRouter();
+
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {
@@ -36,6 +34,11 @@ export function SearchBar() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  const onSelect = (id: string) => {
+    setOpen(false);
+    router.push(`/dashboard/${id}`);
+  };
 
   return (
     <>
@@ -56,37 +59,17 @@ export function SearchBar() {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <CalendarIcon />
-              <span>Calendar</span>
-            </CommandItem>
-            <CommandItem>
-              <FaceIcon />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem>
-              <RocketIcon />
-              <span>Launch</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <PersonIcon />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <EnvelopeClosedIcon />
-              <span>Mail</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <GearIcon />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
+          <CommandGroup heading="Video Titles">
+            {videos.map((vid) => (
+              <CommandItem
+                key={vid.id}
+                onSelect={() => {
+                  onSelect(vid.id);
+                }}
+              >
+                {vid.title}
+              </CommandItem>
+            ))}
           </CommandGroup>
         </CommandList>
       </CommandDialog>
