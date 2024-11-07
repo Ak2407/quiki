@@ -8,8 +8,8 @@ export default async function VideoPage() {
       <VideoHeader />
 
       <p className="text-muted-foreground mb-6">
-        Congratulations! You have successfully created a video. Make changes to
-        the video if you want.
+        You can update your video details here. Update the changes in the form
+        and click update video.
       </p>
 
       <UpgradeAlert />

@@ -37,7 +37,7 @@ const VideoCard = ({ src }: VideoCardProps) => {
   return (
     <div className="flex flex-col gap-6 mx-auto">
       <div className="h-[500px] lg:h-[500px] mx-auto flex items-center justify-center aspect-[9/16] p-2 bg-gray-50 border">
-        <video autoPlay muted src={src} className="h-[400px] lg:h-[600px]" />
+        <video src={src} className="h-[400px] lg:h-[600px]" />
       </div>
       <Button
         variant="primary"
@@ -48,7 +48,7 @@ const VideoCard = ({ src }: VideoCardProps) => {
         {loading ? (
           <LoaderIcon className="animate-spin h-5 w-5 mr-2" />
         ) : (
-          <span>Download</span>
+          <h1>Download</h1>
         )}
       </Button>
     </div>
