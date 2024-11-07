@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -15,13 +14,23 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { useParams, useRouter } from "next/navigation";
+import { deleteVideo } from "@/actions/delete-vid";
+import { toast } from "sonner";
+import { LoaderIcon } from "lucide-react";
 
 const DeleteVideoBtn = () => {
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const router = useRouter();
+
+  const params = useParams();
+  const { id } = params;
+
+  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 640); // Adjust this value as needed
+      setIsSmallScreen(window.innerWidth < 640);
     };
 
     checkScreenSize();
@@ -29,6 +38,20 @@ const DeleteVideoBtn = () => {
 
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
+
+  const deleteVid = async () => {
+    try {
+      setLoading(true);
+      await deleteVideo(id.toString());
+      toast.success("Video deleted successfully!");
+      router.push("/dashboard/library");
+    } catch (error) {
+      console.error("Error deleting video:", error);
+      toast.error("Error deleting video!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const content = (
     <>
@@ -47,16 +70,20 @@ const DeleteVideoBtn = () => {
         ) : (
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         )}
-        <Link href="/dashboard/library">
-          <Button variant="destructive">Continue</Button>
-        </Link>
+        <Button onClick={deleteVid} variant="destructive">
+          Continue
+        </Button>
       </div>
     </>
   );
 
   const triggerButton = (
-    <Button variant="destructive" size="sm">
-      Delete
+    <Button variant="destructive" size="sm" disabled={loading}>
+      {loading ? (
+        <LoaderIcon className="animate-spin h-5 w-5 mr-2" />
+      ) : (
+        <h1>Delete</h1>
+      )}
     </Button>
   );
 
