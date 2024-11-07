@@ -55,6 +55,22 @@ export const videos = pgTable("videos", {
 export const insertVideoSchema = createInsertSchema(videos);
 export const selectVideoSchema = createSelectSchema(videos);
 
+export const updateVideoSchema = selectVideoSchema
+
+  .pick({
+    id: true,
+    title: true,
+    caption: true,
+    script: true,
+  })
+  .extend({
+    title: z.string().min(1).max(100),
+    caption: z.string().min(1).max(200),
+    script: z.string().min(1).max(1200),
+  });
+
+export type UpdateVideoFormValues = z.infer<typeof updateVideoSchema>;
+
 export type NewVideo = z.infer<typeof insertVideoSchema>;
 export type SelectVideo = z.infer<typeof selectVideoSchema>;
 

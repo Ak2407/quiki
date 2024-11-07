@@ -1,50 +1,72 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { getVideo } from "@/actions/get-video";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import VideoCard from "./VideoCard";
+import { UpdateVideoFormValues, updateVideoSchema } from "@/db/schema";
+import { LoaderIcon } from "lucide-react";
+import { updateVideo } from "@/actions/update-video";
+import { toast } from "sonner";
 
-const UpdateForm = () => {
+export default function UpdateForm() {
   const params = useParams();
   const { id } = params;
-
-  const [title, setTitle] = useState("");
-  const [caption, setCaption] = useState("");
-  const [script, setScript] = useState("");
   const [vidUrl, setVidUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFormSubmitted, setIsFormSubmitted] = useState<boolean>(false);
+
+  const form = useForm<UpdateVideoFormValues>({
+    resolver: zodResolver(updateVideoSchema),
+    defaultValues: {
+      id: id.toString(),
+      title: "",
+      caption: "",
+      script: "",
+    },
+  });
 
   useEffect(() => {
     const fetchVideo = async () => {
       const video = await getVideo(id.toString());
-      setTitle(video.title);
-      setCaption(video.caption);
-      setScript(video.script);
+      form.reset({
+        id: id.toString(),
+        title: video.title,
+        caption: video.caption,
+        script: video.script,
+      });
       setVidUrl(video.videoUrl);
       setIsLoading(false);
     };
     fetchVideo();
-  }, [id]);
+  }, [id, form]);
 
-  const limits = {
-    title: 100,
-    caption: 200,
-    script: 1200,
-  };
-
-  const getCharacterCount = (text: string, limit: number) => {
-    const remaining = limit - text.length;
-    return {
-      count: text.length,
-      remaining,
-      isExceeded: remaining < 0,
-    };
+  const onSubmit = async (data: UpdateVideoFormValues) => {
+    try {
+      setIsFormSubmitted(true);
+      await updateVideo(data);
+      toast.success("Video updated successfully!");
+    } catch (error) {
+      console.error("Error updating video:", error);
+      toast.error("Error updating video!");
+    } finally {
+      setIsFormSubmitted(false);
+    }
   };
 
   if (isLoading) {
@@ -68,105 +90,126 @@ const UpdateForm = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* VideoCard only rendered once */}
       {vidUrl && <VideoCard src={vidUrl} />}
 
-      {/* Title Input */}
-      <div className="space-y-6">
-        <div>
-          <label className="text-sm font-medium text-muted-foreground mb-2 block">
-            TITLE
-          </label>
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className={cn(
-              "mb-1",
-              getCharacterCount(title, limits.title).isExceeded &&
-                "border border-red-500 text-red-500 bg-red-50 placeholder:text-red-300",
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>TITLE</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    className={cn(
+                      field.value.length > 100 && "border-red-500 text-red-500",
+                      form.formState.errors.title && "border-red-500",
+                    )}
+                  />
+                </FormControl>
+                <div className="flex justify-between items-center text-sm">
+                  <FormMessage />
+                  <span
+                    className={cn(
+                      "text-right",
+                      field.value.length > 100 || form.formState.errors.title
+                        ? "text-red-500"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    {field.value.length} / 100
+                  </span>
+                </div>
+              </FormItem>
             )}
           />
-          <div className="flex justify-between items-center text-sm">
-            <span
-              className={cn(
-                "text-right",
-                getCharacterCount(title, limits.title).isExceeded
-                  ? "text-red-500"
-                  : "text-muted-foreground",
-              )}
-            >
-              {getCharacterCount(title, limits.title).count} / {limits.title}
-            </span>
-          </div>
-        </div>
 
-        {/* Caption Input */}
-        <div>
-          <label className="text-sm font-medium text-muted-foreground mb-2 block">
-            CAPTION
-          </label>
-          <Input
-            value={caption}
-            onChange={(e) => setCaption(e.target.value)}
-            className={cn(
-              "mb-1",
-              getCharacterCount(caption, limits.caption).isExceeded &&
-                "border border-red-500 text-red-500 bg-red-50 placeholder:text-red-300",
+          <FormField
+            control={form.control}
+            name="caption"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>CAPTION</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    className={cn(
+                      field.value.length > 200 && "border-red-500 text-red-500",
+                      form.formState.errors.caption && "border-red-500",
+                    )}
+                  />
+                </FormControl>
+                <div className="flex justify-between items-center text-sm">
+                  <FormMessage />
+                  <span
+                    className={cn(
+                      "text-right",
+                      field.value.length > 200 || form.formState.errors.caption
+                        ? "text-red-500"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    {field.value.length} / 200
+                  </span>
+                </div>
+              </FormItem>
             )}
           />
-          <div className="flex justify-between items-center text-sm">
-            <span
-              className={cn(
-                "text-right",
-                getCharacterCount(caption, limits.caption).isExceeded
-                  ? "text-red-500"
-                  : "text-muted-foreground",
-              )}
-            >
-              {getCharacterCount(caption, limits.caption).count} /{" "}
-              {limits.caption}
-            </span>
-          </div>
-        </div>
 
-        {/* Script Textarea */}
-        <div>
-          <label className="text-sm font-medium text-muted-foreground mb-2 block">
-            SCRIPT
-          </label>
-          <Textarea
-            value={script}
-            onChange={(e) => setScript(e.target.value)}
-            className={cn(
-              "mb-1",
-              getCharacterCount(script, limits.script).isExceeded &&
-                "border border-red-500 text-red-500 bg-red-50 placeholder:text-red-300",
-              "min-h-[200px]",
+          <FormField
+            control={form.control}
+            name="script"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>SCRIPT</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    className={cn(
+                      "min-h-[200px]",
+                      field.value.length > 1200 &&
+                        "border-red-500 text-red-500",
+                      form.formState.errors.script && "border-red-500",
+                    )}
+                  />
+                </FormControl>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-blue-500">
+                    Note: We recommend verifying AI-generated scripts for
+                    accuracy.
+                  </span>
+                  <span
+                    className={cn(
+                      "text-right",
+                      field.value.length > 1200 || form.formState.errors.script
+                        ? "text-red-500"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    {field.value.length} / 1200
+                  </span>
+                </div>
+                <FormMessage />
+              </FormItem>
             )}
           />
-          <div className="flex justify-between items-center text-sm">
-            <span className="text-blue-500">
-              Note: We recommend verifying AI-generated scripts for accuracy.
-            </span>
-            <span
-              className={cn(
-                "text-right",
-                getCharacterCount(script, limits.script).isExceeded
-                  ? "text-red-500"
-                  : "text-muted-foreground",
-              )}
-            >
-              {getCharacterCount(script, limits.script).count} / {limits.script}
-            </span>
-          </div>
-        </div>
 
-        <Button className="w-full bg-sky-700 hover:bg-sky-600">
-          Update Video
-        </Button>
-      </div>
+          <Button
+            variant="primary"
+            className="w-full bg-sky-700 hover:bg-sky-600"
+            type="submit"
+            disabled={isFormSubmitted}
+          >
+            {isFormSubmitted ? (
+              <LoaderIcon className="animate-spin h-5 w-5 mr-2" />
+            ) : (
+              <h1>Update Video</h1>
+            )}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
-};
-
-export default UpdateForm;
+}
