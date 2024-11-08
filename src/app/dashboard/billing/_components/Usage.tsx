@@ -2,17 +2,21 @@ import { getSub } from "@/actions/get-subscription";
 import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { planDetails } from "@/lib/constants";
 import { toast } from "sonner";
 
 const Usage = async () => {
   const session = await auth();
   const userId = session?.user?.id;
 
-  let subscription: string | null = null;
+  let plan;
 
   try {
     if (userId) {
-      subscription = await getSub(userId);
+      const subscription = await getSub(userId);
+      if (subscription) {
+        plan = planDetails[subscription];
+      }
     }
   } catch (error) {
     toast.error("Error fetching subscription ");
@@ -26,7 +30,7 @@ const Usage = async () => {
           <h1 className="text-xl font-semibold">Plan Summary</h1>
 
           <span className="inline-flex items-center h-[20px] rounded-md bg-gray-50 px-2 py-1 text-xs font-bold text-gray-600 ring-1 ring-inset ring-gray-500/10">
-            {subscription?.toUpperCase()}
+            {plan?.name}
           </span>
         </div>
         <div className="flex flex-col sm:flex-row justify-between gap-8 w-full">
@@ -39,11 +43,11 @@ const Usage = async () => {
           <div className="flex flex-row gap-6 ">
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Price/Month</p>
-              <h1 className="font-medium ">$0</h1>
+              <h1 className="font-medium ">${plan?.price}</h1>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Included Videos</p>
-              <h1 className="font-medium ">1</h1>
+              <h1 className="font-medium ">{plan?.videoLimit}</h1>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Renewal Date</p>

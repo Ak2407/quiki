@@ -1,3 +1,21 @@
+export const planDetails = {
+  free: {
+    name: "Free",
+    price: 0,
+    videoLimit: 1,
+  },
+  basic: {
+    name: "Basic",
+    price: 19,
+    videoLimit: 10,
+  },
+  pro: {
+    name: "Pro",
+    price: 49,
+    videoLimit: 50,
+  },
+};
+
 export const Navbaritems = [
   {
     name: "Examples",
