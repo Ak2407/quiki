@@ -16,7 +16,7 @@ export const getSub = async (userId: string | undefined) => {
       throw new Error("User not found");
     }
 
-    return user[0].subscriptionStatus;
+    return user[0];
   } catch (error) {
     console.error("Error fetching subscription status:", error);
     throw new Error("Error fetching subscription status");
