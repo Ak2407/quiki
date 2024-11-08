@@ -55,15 +55,19 @@ const UsageContent = async () => {
           <div className="flex flex-row gap-6 ">
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Price/Month</p>
-              <h1 className="font-medium ">${plan?.price ?? 0}</h1>
+              <h1 className="font-medium text-xs lg:text-base">
+                ${plan?.price ?? 0}
+              </h1>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Included Videos</p>
-              <h1 className="font-medium ">{videoLimit}</h1>
+              <h1 className="font-medium text-xs lg:text-base">{videoLimit}</h1>
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-xs font-light">Expiry Date</p>
-              <h1 className="font-medium text-sm ">{renewalDate ?? "N/A"}</h1>
+              <h1 className="font-medium text-xs lg:text-sm ">
+                {renewalDate ?? "N/A"}
+              </h1>
             </div>
           </div>
         </div>
