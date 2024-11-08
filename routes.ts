@@ -4,6 +4,7 @@ export const publicRoutes = [
   "/privacy",
   "/cancellation",
   "/contact",
+  "/api/checkSub",
 ];
 
 export const authRoutes = ["/auth/signup", "/auth/error"];
