@@ -13,7 +13,7 @@ const Billing = () => {
         <Usage />
       </div>
 
-      {/* <Pricing /> */}
+      <Pricing />
     </div>
   );
 };
