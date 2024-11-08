@@ -59,7 +59,7 @@ export function SearchBar({ videos }: { videos: SearchBarProps[] }) {
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Video Titles">
+          <CommandGroup>
             {videos.map((vid) => (
               <CommandItem
                 key={vid.id}

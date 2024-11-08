@@ -1,5 +1,5 @@
 {
-  "id": "74e62dd0-4d77-4c8c-be15-86652f0e09a2",
+  "id": "257cd131-67b8-498b-8b9c-e27f3f2ceedf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -274,6 +274,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "video_count": {
+          "name": "video_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
         },
         "subscription_status": {
           "name": "subscription_status",

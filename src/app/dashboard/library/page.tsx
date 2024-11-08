@@ -4,6 +4,7 @@ import { SearchBar } from "./_components/SearchBar";
 import { toast } from "sonner";
 import { getAllVideos } from "@/actions/get-video";
 import { auth } from "@/auth";
+import EmptyState from "./_components/EmptyState";
 
 const Library = async () => {
   const session = await auth();
@@ -21,17 +22,21 @@ const Library = async () => {
         <SearchBar videos={allUserVideos} />
       </div>
       <HeaderBar title="Library" />
-      <div className="flex flex-wrap gap-6 w-full ">
-        {allUserVideos.map((video) => (
-          <div key={video.id}>
-            <GeneratedVid
-              videoId={video.id}
-              title={video.title}
-              caption={video.caption}
-              createdAt={video.createdAt}
-            />
-          </div>
-        ))}
+      <div className="flex flex-wrap gap-6 w-full">
+        {allUserVideos.length === 0 ? (
+          <EmptyState />
+        ) : (
+          allUserVideos.map((video) => (
+            <div key={video.id}>
+              <GeneratedVid
+                videoId={video.id}
+                title={video.title}
+                caption={video.caption}
+                createdAt={video.createdAt}
+              />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	"email" text,
 	"emailVerified" timestamp,
 	"image" text,
+	"video_count" integer DEFAULT 0,
 	"subscription_status" "subscription_status" DEFAULT 'free',
 	"subscription_date" timestamp with time zone DEFAULT now(),
 	CONSTRAINT "user_email_unique" UNIQUE("email")

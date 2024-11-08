@@ -26,6 +26,7 @@ export const users = pgTable("user", {
   email: text("email").unique(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  videoCount: integer("video_count").default(0),
   subscriptionStatus: subscriptionStatusEnum("subscription_status").default(
     "free",
   ),
