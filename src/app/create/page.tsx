@@ -8,12 +8,26 @@ import Topic from "./_components/Topic";
 import Language from "./_components/Language";
 import Voice from "./_components/Voice";
 import { steps } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 const CreatePage = () => {
+  const router = useRouter();
+
   const [step, setStep] = useState<number>(0);
-  const [selectedTopic, setSelectedTopic] = useState<string>("");
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-  const [selectedVoice, setSelectedVoice] = useState<string>("");
+  const [selectedTopic, setSelectedTopic] = useState<string>("Scary Stories");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
+  const [selectedVoice, setSelectedVoice] = useState<string>("Echo");
+
+  const onFinish = () => {
+    const data = {
+      topic: selectedTopic,
+      language: selectedLanguage,
+      voice: selectedVoice,
+    };
+    console.log(data);
+
+    router.push("/dashboard");
+  };
 
   const fadeInFromBottom = {
     initial: { opacity: 0, y: 20 },
@@ -75,7 +89,7 @@ const CreatePage = () => {
         )}
       </AnimatePresence>
       <div className="fixed bottom-0 left-0 right-0 w-full">
-        <BottomBar step={step} setStep={setStep} />
+        <BottomBar step={step} setStep={setStep} onFinish={onFinish} />
       </div>
     </div>
   );

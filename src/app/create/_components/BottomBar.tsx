@@ -1,20 +1,39 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { steps } from "@/lib/constants";
-import Link from "next/link";
+import { LoaderIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 type BottomBarProps = {
   step: number;
   setStep: (step: number) => void;
   nextDisabled?: boolean;
+  onFinish: () => void;
 };
 
-const BottomBar = ({ step, setStep, nextDisabled = false }: BottomBarProps) => {
+const BottomBar = ({
+  step,
+  setStep,
+  onFinish,
+  nextDisabled = false,
+}: BottomBarProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const onBack = () => {
     setStep(step - 1);
   };
 
   const onNext = () => {
     setStep(step + 1);
+  };
+
+  const onFinishClick = () => {
+    setIsLoading(true);
+    onFinish();
+    router.push("/dashboard");
   };
 
   const isLastStep = step === steps.length - 1;
@@ -24,7 +43,7 @@ const BottomBar = ({ step, setStep, nextDisabled = false }: BottomBarProps) => {
         variant="outline"
         className="w-full lg:w-[500px] "
         onClick={onBack}
-        disabled={step === 0}
+        disabled={step === 0 || isLoading}
       >
         Back
       </Button>
@@ -36,19 +55,18 @@ const BottomBar = ({ step, setStep, nextDisabled = false }: BottomBarProps) => {
       >
         Next
       </Button>
-      <Link
-        href="/dashboard"
+      <Button
+        variant="primary"
         className={`w-full lg:w-[500px] ${isLastStep ? "block" : "hidden"}`}
+        onClick={onFinishClick}
+        disabled={isLoading}
       >
-        <Button
-          variant="primary"
-          className="w-full"
-          onClick={onBack}
-          disabled={step === 0}
-        >
-          Finish
-        </Button>
-      </Link>
+        {isLoading ? (
+          <LoaderIcon className="animate-spin h-5 w-full mr-2" />
+        ) : (
+          "Finish"
+        )}
+      </Button>
     </div>
   );
 };

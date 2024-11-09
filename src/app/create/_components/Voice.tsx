@@ -27,12 +27,12 @@ export default function Voice({ selectedVoice, setSelectedVoice }: VoiceProps) {
           onSelect={() => setSelectedVoice(voice.text)}
         >
           <span className="w-full flex flex-col gap-2 item-center justify-center ">
-            <button className="flex items-center justify-center w-full">
+            <div className="flex items-center justify-center w-full">
               <CirclePlayIcon
                 className="h-10 w-10 text-white "
                 fill="#0369a1"
               />
-            </button>
+            </div>
             <h1 className="text-base text-center font-semibold">
               {voice.text}
             </h1>

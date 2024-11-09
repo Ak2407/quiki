@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -15,13 +14,17 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { LoaderIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const CancelButton = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 640); // Adjust this value as needed
+      setIsSmallScreen(window.innerWidth < 640);
     };
 
     checkScreenSize();
@@ -29,6 +32,11 @@ const CancelButton = () => {
 
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
+
+  const handleClick = () => {
+    setIsLoading(true);
+    router.push("/dashboard");
+  };
 
   const content = (
     <>
@@ -47,9 +55,17 @@ const CancelButton = () => {
         ) : (
           <AlertDialogCancel>Cancel</AlertDialogCancel>
         )}
-        <Link href="/dashboard">
-          <Button variant="destructive">Continue</Button>
-        </Link>
+        <Button
+          variant="destructive"
+          onClick={handleClick}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <LoaderIcon className="animate-spin h-5 w-full mr-2" />
+          ) : (
+            "Continue"
+          )}
+        </Button>
       </div>
     </>
   );
