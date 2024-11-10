@@ -101,4 +101,7 @@ export const steps = [
   {
     title: "Choose a Voice",
   },
+  {
+    title: "Choose a Duration",
+  },
 ];

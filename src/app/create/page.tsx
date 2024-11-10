@@ -9,6 +9,9 @@ import Language from "./_components/Language";
 import Voice from "./_components/Voice";
 import { steps } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+import Duration from "./_components/Duration";
+import { getVideoText } from "@/actions/get-vid-text";
+import { toast } from "sonner";
 
 const CreatePage = () => {
   const router = useRouter();
@@ -17,14 +20,25 @@ const CreatePage = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>("Scary Stories");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
   const [selectedVoice, setSelectedVoice] = useState<string>("Echo");
+  const [selectedDuration, setSelectedDuration] =
+    useState<string>("45 to 60 seconds");
 
-  const onFinish = () => {
+  const onFinish = async () => {
     const data = {
       topic: selectedTopic,
       language: selectedLanguage,
       voice: selectedVoice,
+      duration: selectedDuration,
     };
     console.log(data);
+    try {
+      const generatedScript = await getVideoText(data);
+      console.log("Generated Script : ", generatedScript);
+      toast.success("Video Generated Successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Error Generating Video");
+    }
 
     router.push("/dashboard");
   };
@@ -84,6 +98,21 @@ const CreatePage = () => {
             <Voice
               selectedVoice={selectedVoice}
               setSelectedVoice={setSelectedVoice}
+            />
+          </motion.div>
+        )}
+        {step === 3 && (
+          <motion.div
+            key="step-3"
+            {...fadeInFromBottom}
+            className="flex flex-col gap-10"
+          >
+            <h1 className="text-2xl font-bold text-center">
+              {steps[step].title}
+            </h1>
+            <Duration
+              selectedDuration={selectedDuration}
+              setSelectedDuration={setSelectedDuration}
             />
           </motion.div>
         )}
