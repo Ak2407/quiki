@@ -33,7 +33,7 @@ const CreatePage = () => {
     console.log(data);
     try {
       const generatedScript = await getVideoText(data);
-      console.log("Generated Script : ", generatedScript);
+      console.log(generatedScript);
       toast.success("Video Generated Successfully");
     } catch (error) {
       console.log(error);

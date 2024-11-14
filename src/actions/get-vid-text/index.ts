@@ -16,11 +16,12 @@ export async function getVideoText({
   language,
   duration,
 }: GenerateTextProps) {
-  const prompt = `Write a script to generate ${duration} video on topic : ${topic} in language ${language} along with Al image prompt in Realistic format for each scene and give me result in JSON format with imagePrompt and Content Text as field`;
+  const prompt = `Generate a JSON array named "result" for a ${duration} video on the topic: ${topic} in language ${language}, with each element being an object containing "imagePrompt" and "contentText" fields. Output only the JSON object—no code blocks, no additional text, just the pure JSON response.`;
 
   const { text } = await generateText({
     model,
     prompt,
   });
-  return text;
+
+  return JSON.parse(text);
 }
