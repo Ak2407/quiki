@@ -12,6 +12,13 @@ import { useRouter } from "next/navigation";
 import Duration from "./_components/Duration";
 import { getVideoText } from "@/actions/get-vid-text";
 import { toast } from "sonner";
+import axios from "axios";
+
+import { v4 as uuidv4 } from "uuid";
+
+type ScriptItem = {
+  contentText: string;
+};
 
 const CreatePage = () => {
   const router = useRouter();
@@ -33,14 +40,43 @@ const CreatePage = () => {
     console.log(data);
     try {
       const generatedScript = await getVideoText(data);
+      GenerateAudio(generatedScript);
       console.log(generatedScript);
-      toast.success("Video Generated Successfully");
+      toast.success("Video Script Generated Successfully");
     } catch (error) {
       console.log(error);
-      toast.error("Error Generating Video");
+      toast.error("Error Generating Video Script");
     }
 
     router.push("/dashboard");
+  };
+
+  const GenerateAudio = async (vidScript: ScriptItem[]) => {
+    let script = "";
+    vidScript.forEach((item) => {
+      script = script + item.contentText + "";
+    });
+
+    const id = uuidv4();
+
+    await axios
+      .post("/api/get-audio", {
+        script,
+        id,
+      })
+      .then((response) => {
+        console.log(response.data);
+        toast.success("Audio Generated Successfully");
+        GenerateCaption(response.data.Result);
+      });
+  };
+
+  const GenerateCaption = async (audioFileUrl: string) => {
+    console.log(audioFileUrl);
+    await axios.post("/api/get-caption", { audioFileUrl }).then((response) => {
+      console.log(response.data);
+      toast.success("Caption Generated Successfully");
+    });
   };
 
   const fadeInFromBottom = {
