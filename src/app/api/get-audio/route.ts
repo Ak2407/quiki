@@ -11,7 +11,7 @@ const client = new textToSpeech.TextToSpeechClient({
 export async function POST(req: NextRequest) {
   const { script, id } = await req.json();
 
-  const storageRef = ref(storage, "quiki/" + id + ".mp3");
+  const storageRef = ref(storage, "quiki/audio/" + id + ".mp3");
 
   try {
     const request = {

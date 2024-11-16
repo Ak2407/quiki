@@ -10,14 +10,32 @@ import Voice from "./_components/Voice";
 import { steps } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import Duration from "./_components/Duration";
-import { getVideoText } from "@/actions/get-vid-text";
 import { toast } from "sonner";
 import axios from "axios";
 
 import { v4 as uuidv4 } from "uuid";
 
+const result = [
+  // {
+  //   imagePrompt:
+  //     "A futuristic cityscape with towering skyscrapers, flying cars, and holographic advertisements, all bathed in neon lights. Realistic style.",
+  //
+  //   contentText:
+  //     "नमस्कार! आज हम बात करेंगे विज्ञान कथाओं की, एक ऐसी दुनिया की जो हमारी कल्पना से परे है।",
+  // },
+
+  {
+    imagePrompt:
+      "A lone astronaut standing on a desolate alien planet, looking up at a vast, starry sky. Realistic style.",
+
+    contentText:
+      "विज्ञान कथाएं हमें भविष्य की कल्पना करने का मौका देती हैं, जहां तकनीक ने मानव जीवन को बदल दिया है।",
+  },
+];
+
 type ScriptItem = {
   contentText: string;
+  imagePrompt: string;
 };
 
 const CreatePage = () => {
@@ -39,10 +57,12 @@ const CreatePage = () => {
     };
     console.log(data);
     try {
-      const generatedScript = await getVideoText(data);
-      GenerateAudio(generatedScript);
-      console.log(generatedScript);
-      toast.success("Video Script Generated Successfully");
+      // await axios.post("/api/get-vid-text", data).then((response) => {
+      //   console.log(response.data);
+      //   GenerateImages(response.data.result);
+      //   toast.success("Video Script Generated Successfully");
+      // });
+      GenerateImages(result);
     } catch (error) {
       console.log(error);
       toast.error("Error Generating Video Script");
@@ -67,7 +87,7 @@ const CreatePage = () => {
       .then((response) => {
         console.log(response.data);
         toast.success("Audio Generated Successfully");
-        GenerateCaption(response.data.Result);
+        // GenerateCaption(response.data.Result);
       });
   };
 
@@ -76,6 +96,18 @@ const CreatePage = () => {
     await axios.post("/api/get-caption", { audioFileUrl }).then((response) => {
       console.log(response.data);
       toast.success("Caption Generated Successfully");
+    });
+  };
+
+  const GenerateImages = (vidScript: ScriptItem[]) => {
+    vidScript.forEach(async (item) => {
+      await axios
+        .post("/api/get-vid-images", {
+          prompt: item?.imagePrompt,
+        })
+        .then((response) => {
+          console.log(response.data.result);
+        });
     });
   };
 
