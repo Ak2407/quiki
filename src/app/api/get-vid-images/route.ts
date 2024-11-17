@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("Generation completed:", result.output);
+    console.log("Generation complete:", result.output);
 
     return NextResponse.json({
       result: result.output,
