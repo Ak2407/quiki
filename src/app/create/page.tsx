@@ -41,6 +41,7 @@ const CreatePage = () => {
     try {
       await axios.post("/api/get-vid-text", data).then((response) => {
         console.log(response.data);
+        GenerateAudio(response.data.result);
         GenerateImages(response.data.result);
         toast.success("Video Script Generated Successfully");
       });
@@ -68,7 +69,7 @@ const CreatePage = () => {
       .then((response) => {
         console.log(response.data);
         toast.success("Audio Generated Successfully");
-        // GenerateCaption(response.data.Result);
+        GenerateCaption(response.data.Result);
       });
   };
 
@@ -87,7 +88,7 @@ const CreatePage = () => {
           prompt: item?.imagePrompt,
         })
         .then((response) => {
-          console.log(response.data.result[0]);
+          console.log(response.data.result);
         });
     });
   };

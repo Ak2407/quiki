@@ -1,5 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import Replicate from "replicate";
+import axios from "axios";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { storage } from "../../../../firebase.config";
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,15 +31,15 @@ export async function POST(req: NextRequest) {
         "5599ed30703defd1d160a25a63321b4dec97101d98b4674bcc56e41f62f35637",
       input: {
         prompt: prompt,
-        width: 1280,
-        height: 1024,
+        height: 1280,
+        width: 1024,
       },
     });
 
     let result = await replicate.predictions.get(prediction.id);
 
     while (result.status !== "succeeded" && result.status !== "failed") {
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       result = await replicate.predictions.get(prediction.id);
       console.log("Status:", result.status);
     }
@@ -50,8 +53,21 @@ export async function POST(req: NextRequest) {
 
     console.log("Generation complete:", result.output);
 
+    //Save to firebase
+    console.log("Saving to firebase");
+
+    const base64Image =
+      "data:image/png;base64," + (await ConvertImage(result.output));
+    const fileName = "quiki/images/" + Date.now() + ".png";
+    const storageRef = ref(storage, fileName);
+
+    await uploadString(storageRef, base64Image, "data_url");
+
+    const downloadUrl = await getDownloadURL(storageRef);
+    console.log("Download URL:", downloadUrl);
+
     return NextResponse.json({
-      result: result.output,
+      result: downloadUrl,
       status: result.status,
     });
   } catch (error) {
@@ -62,3 +78,15 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+const ConvertImage = async (imageUrl: string) => {
+  try {
+    const response = await axios.get(imageUrl, { responseType: "arraybuffer" });
+
+    const base64Image = Buffer.from(response.data).toString("base64");
+
+    return base64Image;
+  } catch (error) {
+    console.error("Error converting image:", error);
+  }
+};
