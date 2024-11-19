@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { steps } from "@/lib/constants";
 import { LoaderIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type BottomBarProps = {
@@ -20,7 +19,6 @@ const BottomBar = ({
   nextDisabled = false,
 }: BottomBarProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const router = useRouter();
 
   const onBack = () => {
     setStep(step - 1);
@@ -33,7 +31,6 @@ const BottomBar = ({
   const onFinishClick = () => {
     setIsLoading(true);
     onFinish();
-    router.push("/dashboard");
   };
 
   const isLastStep = step === steps.length - 1;

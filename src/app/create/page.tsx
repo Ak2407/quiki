@@ -30,6 +30,11 @@ const CreatePage = () => {
   const [selectedDuration, setSelectedDuration] =
     useState<string>("45 to 60 seconds");
 
+  const [script, setScript] = useState<ScriptItem[]>([]);
+  const [audioUrl, setAudioUrl] = useState<string>();
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
+  const [caption, setCaption] = useState();
+
   const onFinish = async () => {
     const data = {
       topic: selectedTopic,
@@ -40,9 +45,10 @@ const CreatePage = () => {
     console.log(data);
     try {
       await axios.post("/api/get-vid-text", data).then((response) => {
-        console.log(response.data);
+        setScript(response.data.result);
+        console.log("Script:", script);
+        console.log("Scriptt ==", response.data.result);
         GenerateAudio(response.data.result);
-        GenerateImages(response.data.result);
         toast.success("Video Script Generated Successfully");
       });
     } catch (error) {
@@ -67,30 +73,53 @@ const CreatePage = () => {
         id,
       })
       .then((response) => {
-        console.log(response.data);
         toast.success("Audio Generated Successfully");
-        GenerateCaption(response.data.Result);
+        setAudioUrl(response.data.result);
+        console.log("Audio:", audioUrl);
+        console.log("Audio ==", response.data.result);
+        GenerateCaption(response.data.result, vidScript);
       });
   };
 
-  const GenerateCaption = async (audioFileUrl: string) => {
-    console.log(audioFileUrl);
+  const GenerateCaption = async (
+    audioFileUrl: string,
+    vidScript: ScriptItem[],
+  ) => {
     await axios.post("/api/get-caption", { audioFileUrl }).then((response) => {
-      console.log(response.data);
+      setCaption(response.data.result);
+      console.log("Caption:", caption);
+      console.log("Caption ==", response.data.result);
+      GenerateImages(vidScript);
       toast.success("Caption Generated Successfully");
     });
   };
 
-  const GenerateImages = (vidScript: ScriptItem[]) => {
-    vidScript.forEach(async (item) => {
-      await axios
-        .post("/api/get-vid-images", {
-          prompt: item?.imagePrompt,
-        })
-        .then((response) => {
-          console.log(response.data.result);
-        });
-    });
+  const GenerateImages = async (vidScript: ScriptItem[]) => {
+    try {
+      const imagePromises = vidScript.map((item) =>
+        axios.post("/api/get-vid-images", { prompt: item?.imagePrompt }),
+      );
+
+      const responses = await Promise.all(imagePromises);
+      const images = responses.map((response) => response.data.result);
+
+      setImageUrl(images);
+      console.log("Images:", imageUrl);
+      console.log("Images ==", images);
+      console.log(
+        "Script:",
+        script,
+        "Images:",
+        imageUrl,
+        "Caption:",
+        caption,
+        "Audio:",
+        audioUrl,
+      );
+    } catch (error) {
+      console.error("Error generating images:", error);
+      toast.error("Error generating images");
+    }
   };
 
   const fadeInFromBottom = {

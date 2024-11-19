@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const transcript = await client.transcripts.transcribe(data);
 
-    return NextResponse.json({ Result: transcript.words });
+    return NextResponse.json({ result: transcript.words });
   } catch (error) {
     console.error("Error getting the caption", error);
     return NextResponse.json(

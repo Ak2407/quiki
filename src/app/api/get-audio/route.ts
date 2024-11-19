@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     console.log(downloadUrl);
 
-    return NextResponse.json({ Result: downloadUrl });
+    return NextResponse.json({ result: downloadUrl });
   } catch (error) {
     console.error("Error getting the script audio", error);
     return NextResponse.json(
