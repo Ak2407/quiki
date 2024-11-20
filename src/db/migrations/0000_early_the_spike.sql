@@ -52,6 +52,15 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 	CONSTRAINT "verificationToken_identifier_token_pk" PRIMARY KEY("identifier","token")
 );
 --> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "video_data" (
+	"id" text PRIMARY KEY NOT NULL,
+	"script" json NOT NULL,
+	"audio_url" text NOT NULL,
+	"captions" json NOT NULL,
+	"image_list" text[] NOT NULL,
+	"created_by" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "videos" (
 	"id" text PRIMARY KEY NOT NULL,
 	"user_id" text,

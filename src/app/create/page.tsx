@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import BottomBar from "./_components/BottomBar";
 import CancelButton from "./_components/CancelButton";
@@ -13,15 +13,27 @@ import Duration from "./_components/Duration";
 import { toast } from "sonner";
 import axios from "axios";
 
+import { useSession } from "next-auth/react";
+
 import { v4 as uuidv4 } from "uuid";
+import { addVideoData } from "@/actions/add-vid-data";
 
 type ScriptItem = {
   contentText: string;
   imagePrompt: string;
 };
 
+type VidData = {
+  script: ScriptItem[];
+  audioUrl: string;
+  imageList: string[];
+  caption: string;
+};
+
 const CreatePage = () => {
   const router = useRouter();
+
+  const { data: session } = useSession();
 
   const [step, setStep] = useState<number>(0);
   const [selectedTopic, setSelectedTopic] = useState<string>("Scary Stories");
@@ -30,10 +42,24 @@ const CreatePage = () => {
   const [selectedDuration, setSelectedDuration] =
     useState<string>("45 to 60 seconds");
 
-  const [script, setScript] = useState<ScriptItem[]>([]);
-  const [audioUrl, setAudioUrl] = useState<string>();
-  const [imageUrl, setImageUrl] = useState<string[]>([]);
-  const [caption, setCaption] = useState();
+  const [vidData, setVidData] = useState<{
+    script: ScriptItem[];
+    audioUrl: string;
+    imageList: string[];
+    caption: string;
+  }>({
+    script: [],
+    audioUrl: "",
+    imageList: [],
+    caption: "",
+  });
+
+  const updateVidData = (newData: Partial<typeof vidData>) => {
+    setVidData((prevData) => ({
+      ...prevData,
+      ...newData,
+    }));
+  };
 
   const onFinish = async () => {
     const data = {
@@ -45,9 +71,7 @@ const CreatePage = () => {
     console.log(data);
     try {
       await axios.post("/api/get-vid-text", data).then((response) => {
-        setScript(response.data.result);
-        console.log("Script:", script);
-        console.log("Scriptt ==", response.data.result);
+        updateVidData({ script: response.data.result });
         GenerateAudio(response.data.result);
         toast.success("Video Script Generated Successfully");
       });
@@ -55,8 +79,6 @@ const CreatePage = () => {
       console.log(error);
       toast.error("Error Generating Video Script");
     }
-
-    router.push("/dashboard");
   };
 
   const GenerateAudio = async (vidScript: ScriptItem[]) => {
@@ -74,9 +96,8 @@ const CreatePage = () => {
       })
       .then((response) => {
         toast.success("Audio Generated Successfully");
-        setAudioUrl(response.data.result);
-        console.log("Audio:", audioUrl);
-        console.log("Audio ==", response.data.result);
+        // setAudioUrl(response.data.result);
+        updateVidData({ audioUrl: response.data.result });
         GenerateCaption(response.data.result, vidScript);
       });
   };
@@ -86,9 +107,7 @@ const CreatePage = () => {
     vidScript: ScriptItem[],
   ) => {
     await axios.post("/api/get-caption", { audioFileUrl }).then((response) => {
-      setCaption(response.data.result);
-      console.log("Caption:", caption);
-      console.log("Caption ==", response.data.result);
+      updateVidData({ caption: response.data.result });
       GenerateImages(vidScript);
       toast.success("Caption Generated Successfully");
     });
@@ -103,22 +122,31 @@ const CreatePage = () => {
       const responses = await Promise.all(imagePromises);
       const images = responses.map((response) => response.data.result);
 
-      setImageUrl(images);
-      console.log("Images:", imageUrl);
-      console.log("Images ==", images);
-      console.log(
-        "Script:",
-        script,
-        "Images:",
-        imageUrl,
-        "Caption:",
-        caption,
-        "Audio:",
-        audioUrl,
-      );
+      toast.success("Images Generated Successfully");
+
+      updateVidData({ imageList: images });
     } catch (error) {
       console.error("Error generating images:", error);
       toast.error("Error generating images");
+    }
+  };
+
+  useEffect(() => {
+    const { script, audioUrl, caption, imageList } = vidData;
+
+    if (script.length > 0 && audioUrl && caption && imageList.length > 0) {
+      addVidData(vidData);
+    }
+  }, [vidData]);
+
+  const addVidData = async (vidData: VidData) => {
+    try {
+      const userEmail = session?.user?.email;
+      await addVideoData(vidData, userEmail!);
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error adding video data:", error);
+      toast.error("Error adding video data");
     }
   };
 

@@ -6,6 +6,7 @@ import {
   primaryKey,
   integer,
   pgEnum,
+  json,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { relations } from "drizzle-orm";
@@ -40,6 +41,17 @@ export const selectUserSchema = createSelectSchema(users);
 
 export type NewUser = z.infer<typeof insertUserSchema>;
 export type SelectUser = z.infer<typeof selectUserSchema>;
+
+export const videoData = pgTable("video_data", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  script: json("script").notNull(),
+  audioUrl: text("audio_url").notNull(),
+  captions: json("captions").notNull(),
+  imageList: text("image_list").array().notNull(),
+  createdBy: text("created_by").notNull(),
+});
 
 export const videos = pgTable("videos", {
   id: text("id")

@@ -1,5 +1,5 @@
 {
-  "id": "257cd131-67b8-498b-8b9c-e27f3f2ceedf",
+  "id": "e8dbbf6e-f4a4-4d7e-818a-bddd1cdd7818",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -348,6 +348,55 @@
           ]
         }
       },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.video_data": {
+      "name": "video_data",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "script": {
+          "name": "script",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "audio_url": {
+          "name": "audio_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "captions": {
+          "name": "captions",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_list": {
+          "name": "image_list",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
