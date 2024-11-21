@@ -6,17 +6,17 @@ import BottomBar from "./_components/BottomBar";
 import CancelButton from "./_components/CancelButton";
 import Topic from "./_components/Topic";
 import Language from "./_components/Language";
-import Voice from "./_components/Voice";
 import { steps } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import Duration from "./_components/Duration";
 import { toast } from "sonner";
 import axios from "axios";
-
 import { useSession } from "next-auth/react";
-
 import { v4 as uuidv4 } from "uuid";
 import { addVideoData } from "@/actions/add-vid-data";
+import Gender from "./_components/Gender";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Loader } from "lucide-react";
 
 type ScriptItem = {
   contentText: string;
@@ -32,29 +32,24 @@ type VidData = {
 
 const CreatePage = () => {
   const router = useRouter();
-
   const { data: session } = useSession();
-
   const [step, setStep] = useState<number>(0);
   const [selectedTopic, setSelectedTopic] = useState<string>("Scary Stories");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("English");
-  const [selectedVoice, setSelectedVoice] = useState<string>("Echo");
+  const [selectedGender, setSelectedGender] = useState<string>("MALE");
   const [selectedDuration, setSelectedDuration] =
     useState<string>("45 to 60 seconds");
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [dialogMessage, setDialogMessage] = useState("Processing...");
 
-  const [vidData, setVidData] = useState<{
-    script: ScriptItem[];
-    audioUrl: string;
-    imageList: string[];
-    caption: string;
-  }>({
+  const [vidData, setVidData] = useState<VidData>({
     script: [],
     audioUrl: "",
     imageList: [],
     caption: "",
   });
 
-  const updateVidData = (newData: Partial<typeof vidData>) => {
+  const updateVidData = (newData: Partial<VidData>) => {
     setVidData((prevData) => ({
       ...prevData,
       ...newData,
@@ -62,10 +57,12 @@ const CreatePage = () => {
   };
 
   const onFinish = async () => {
+    setIsDialogOpen(true);
+    setDialogMessage("Generating Video Script...");
     const data = {
       topic: selectedTopic,
       language: selectedLanguage,
-      voice: selectedVoice,
+      gender: selectedGender,
       duration: selectedDuration,
     };
     console.log(data);
@@ -78,10 +75,12 @@ const CreatePage = () => {
     } catch (error) {
       console.log(error);
       toast.error("Error Generating Video Script");
+      setIsDialogOpen(false);
     }
   };
 
   const GenerateAudio = async (vidScript: ScriptItem[]) => {
+    setDialogMessage("Generating Audio...");
     let script = "";
     vidScript.forEach((item) => {
       script = script + item.contentText + "";
@@ -93,10 +92,11 @@ const CreatePage = () => {
       .post("/api/get-audio", {
         script,
         id,
+        gender: selectedGender,
+        language: selectedLanguage,
       })
       .then((response) => {
         toast.success("Audio Generated Successfully");
-        // setAudioUrl(response.data.result);
         updateVidData({ audioUrl: response.data.result });
         GenerateCaption(response.data.result, vidScript);
       });
@@ -106,6 +106,7 @@ const CreatePage = () => {
     audioFileUrl: string,
     vidScript: ScriptItem[],
   ) => {
+    setDialogMessage("Generating Caption...");
     await axios.post("/api/get-caption", { audioFileUrl }).then((response) => {
       updateVidData({ caption: response.data.result });
       GenerateImages(vidScript);
@@ -114,6 +115,7 @@ const CreatePage = () => {
   };
 
   const GenerateImages = async (vidScript: ScriptItem[]) => {
+    setDialogMessage("Generating Images...");
     try {
       const imagePromises = vidScript.map((item) =>
         axios.post("/api/get-vid-images", { prompt: item?.imagePrompt }),
@@ -128,6 +130,7 @@ const CreatePage = () => {
     } catch (error) {
       console.error("Error generating images:", error);
       toast.error("Error generating images");
+      setIsDialogOpen(false);
     }
   };
 
@@ -140,13 +143,19 @@ const CreatePage = () => {
   }, [vidData]);
 
   const addVidData = async (vidData: VidData) => {
+    setDialogMessage("Saving Video Data...");
     try {
       const userEmail = session?.user?.email;
       await addVideoData(vidData, userEmail!);
-      router.push("/dashboard");
+      setDialogMessage("Video Generated Successfully");
+      setTimeout(() => {
+        setIsDialogOpen(false);
+        router.push("/dashboard");
+      }, 2000);
     } catch (error) {
       console.error("Error adding video data:", error);
       toast.error("Error adding video data");
+      setIsDialogOpen(false);
     }
   };
 
@@ -202,9 +211,9 @@ const CreatePage = () => {
             <h1 className="text-2xl font-bold text-center">
               {steps[step].title}
             </h1>
-            <Voice
-              selectedVoice={selectedVoice}
-              setSelectedVoice={setSelectedVoice}
+            <Gender
+              selectedGender={selectedGender}
+              setSelectedGender={setSelectedGender}
             />
           </motion.div>
         )}
@@ -227,6 +236,23 @@ const CreatePage = () => {
       <div className="fixed bottom-0 left-0 right-0 w-full">
         <BottomBar step={step} setStep={setStep} onFinish={onFinish} />
       </div>
+      <Dialog open={isDialogOpen} onOpenChange={() => {}}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogTitle></DialogTitle>
+          <div className="flex flex-col items-center justify-center min-h-[200px] text-center">
+            {dialogMessage !== "Video Generated Successfully" ? (
+              <>
+                <Loader className="h-8 w-8 animate-spin mb-4" />
+                <p className="text-lg font-semibold">{dialogMessage}</p>
+              </>
+            ) : (
+              <p className="text-lg font-semibold text-green-600">
+                {dialogMessage}
+              </p>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

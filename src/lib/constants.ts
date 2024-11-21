@@ -99,7 +99,7 @@ export const steps = [
     title: "Choose a Language",
   },
   {
-    title: "Choose a Voice",
+    title: "Choose a Gender",
   },
   {
     title: "Choose a Duration",
