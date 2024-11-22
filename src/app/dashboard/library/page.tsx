@@ -9,12 +9,12 @@ import EmptyState from "./_components/EmptyState";
 const Library = async () => {
   const session = await auth();
 
-  if (!session) {
+  if (!session?.user?.email) {
     toast.error("You must be logged in to view this page");
     return null;
   }
 
-  const allUserVideos = await getAllVideos(session.user?.id);
+  const allUserVideos = await getAllVideos(session.user?.email);
 
   return (
     <div className="w-full pt-20 sm:pt-8 p-8 flex flex-col gap-6">
@@ -31,7 +31,9 @@ const Library = async () => {
               <GeneratedVid
                 videoId={video.id}
                 title={video.title}
-                caption={video.caption}
+                topic={video.topic}
+                language={video.language}
+                voice={video.voice}
                 createdAt={video.createdAt}
               />
             </div>

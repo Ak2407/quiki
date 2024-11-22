@@ -55,58 +55,17 @@ export const videoData = pgTable("video_data", {
   captions: json("captions").notNull(),
   imageList: text("image_list").array().notNull(),
   userEmail: text("user_email").references(() => users.email),
-});
-
-export const videos = pgTable("videos", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: text("user_id").references(() => users.id),
-  title: text("title").notNull(),
-  caption: text("caption").notNull(),
-  script: text("script").notNull(),
-  videoUrl: text("video_url").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
-export const insertVideoSchema = createInsertSchema(videos);
-export const selectVideoSchema = createSelectSchema(videos);
-
-export const updateVideoSchema = selectVideoSchema
-
-  .pick({
-    id: true,
-    title: true,
-    caption: true,
-    script: true,
-  })
-  .extend({
-    title: z.string().min(1).max(100),
-    caption: z.string().min(1).max(200),
-    script: z.string().min(1).max(1200),
-  });
-
-export type UpdateVideoFormValues = z.infer<typeof updateVideoSchema>;
-
-export type NewVideo = z.infer<typeof insertVideoSchema>;
-export type SelectVideo = z.infer<typeof selectVideoSchema>;
-
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
-  videos: many(videos),
   videoData: many(videoData),
 }));
 
 export const videoDataRelations = relations(videoData, ({ one }) => ({
   user: one(users, {
     fields: [videoData.userEmail],
-    references: [users.id],
-  }),
-}));
-
-export const videosRelations = relations(videos, ({ one }) => ({
-  user: one(users, {
-    fields: [videos.userId],
     references: [users.id],
   }),
 }));

@@ -62,16 +62,7 @@ CREATE TABLE IF NOT EXISTS "video_data" (
 	"audio_url" text NOT NULL,
 	"captions" json NOT NULL,
 	"image_list" text[] NOT NULL,
-	"user_email" text
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "videos" (
-	"id" text PRIMARY KEY NOT NULL,
-	"user_id" text,
-	"title" text NOT NULL,
-	"caption" text NOT NULL,
-	"script" text NOT NULL,
-	"video_url" text NOT NULL,
+	"user_email" text,
 	"created_at" timestamp with time zone DEFAULT now()
 );
 --> statement-breakpoint
@@ -95,12 +86,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "video_data" ADD CONSTRAINT "video_data_user_email_user_email_fk" FOREIGN KEY ("user_email") REFERENCES "public"."user"("email") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "videos" ADD CONSTRAINT "videos_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

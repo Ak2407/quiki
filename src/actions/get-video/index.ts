@@ -1,19 +1,19 @@
 "use server";
 
 import { db } from "@/db";
-import { videos } from "@/db/schema";
+import { videoData } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
-export const getAllVideos = async (userId: string | undefined) => {
-  if (!userId) {
-    throw new Error("User ID is required");
+export const getAllVideos = async (userEmail: string | undefined) => {
+  if (!userEmail) {
+    throw new Error("User Email is required");
   }
 
   try {
     const allVideos = await db
       .select()
-      .from(videos)
-      .where(eq(videos.userId, userId));
+      .from(videoData)
+      .where(eq(videoData.userEmail, userEmail));
 
     return allVideos;
   } catch (error) {
@@ -22,16 +22,16 @@ export const getAllVideos = async (userId: string | undefined) => {
   }
 };
 
-export const getRecentlyMade = async (userId: string | undefined) => {
-  if (!userId) {
-    throw new Error("User ID is required");
+export const getRecentlyMade = async (userEmail: string | undefined) => {
+  if (!userEmail) {
+    throw new Error("User Email is required");
   }
 
   try {
     const allVideos = await db
       .select()
-      .from(videos)
-      .where(eq(videos.userId, userId))
+      .from(videoData)
+      .where(eq(videoData.userEmail, userEmail))
       .limit(6);
 
     return allVideos;
@@ -47,7 +47,10 @@ export const getVideo = async (videoId: string | undefined) => {
   }
 
   try {
-    const vid = await db.select().from(videos).where(eq(videos.id, videoId));
+    const vid = await db
+      .select()
+      .from(videoData)
+      .where(eq(videoData.id, videoId));
 
     if (vid.length === 0) {
       throw new Error("Video not found");
