@@ -24,6 +24,10 @@ type ScriptItem = {
 };
 
 type VidData = {
+  title: string;
+  topic: string;
+  voice: string;
+  language: string;
   script: ScriptItem[];
   audioUrl: string;
   imageList: string[];
@@ -39,10 +43,14 @@ const CreatePage = () => {
   const [selectedGender, setSelectedGender] = useState<string>("MALE");
   const [selectedDuration, setSelectedDuration] =
     useState<string>("45 to 60 seconds");
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [dialogMessage, setDialogMessage] = useState("Processing...");
 
   const [vidData, setVidData] = useState<VidData>({
+    title: "",
+    topic: selectedTopic,
+    voice: selectedGender,
+    language: selectedLanguage,
     script: [],
     audioUrl: "",
     imageList: [],
@@ -65,10 +73,12 @@ const CreatePage = () => {
       gender: selectedGender,
       duration: selectedDuration,
     };
-    console.log(data);
     try {
       await axios.post("/api/get-vid-text", data).then((response) => {
-        updateVidData({ script: response.data.result });
+        updateVidData({
+          script: response.data.result,
+          title: response.data.title,
+        });
         GenerateAudio(response.data.result);
         toast.success("Video Script Generated Successfully");
       });
@@ -135,9 +145,15 @@ const CreatePage = () => {
   };
 
   useEffect(() => {
-    const { script, audioUrl, caption, imageList } = vidData;
+    const { title, script, audioUrl, caption, imageList } = vidData;
 
-    if (script.length > 0 && audioUrl && caption && imageList.length > 0) {
+    if (
+      title.length > 0 &&
+      script.length > 0 &&
+      audioUrl &&
+      caption &&
+      imageList.length > 0
+    ) {
       addVidData(vidData);
     }
   }, [vidData]);

@@ -54,11 +54,15 @@ CREATE TABLE IF NOT EXISTS "verificationToken" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "video_data" (
 	"id" text PRIMARY KEY NOT NULL,
+	"title" text NOT NULL,
+	"topic" text NOT NULL,
+	"voice" text NOT NULL,
+	"language" text NOT NULL,
 	"script" json NOT NULL,
 	"audio_url" text NOT NULL,
 	"captions" json NOT NULL,
 	"image_list" text[] NOT NULL,
-	"created_by" text NOT NULL
+	"user_email" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "videos" (
@@ -85,6 +89,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "session" ADD CONSTRAINT "session_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "video_data" ADD CONSTRAINT "video_data_user_email_user_email_fk" FOREIGN KEY ("user_email") REFERENCES "public"."user"("email") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

@@ -46,11 +46,15 @@ export const videoData = pgTable("video_data", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
+  title: text("title").notNull(),
+  topic: text("topic").notNull(),
+  voice: text("voice").notNull(),
+  language: text("language").notNull(),
   script: json("script").notNull(),
   audioUrl: text("audio_url").notNull(),
   captions: json("captions").notNull(),
   imageList: text("image_list").array().notNull(),
-  createdBy: text("created_by").notNull(),
+  userEmail: text("user_email").references(() => users.email),
 });
 
 export const videos = pgTable("videos", {
@@ -90,6 +94,14 @@ export type SelectVideo = z.infer<typeof selectVideoSchema>;
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   videos: many(videos),
+  videoData: many(videoData),
+}));
+
+export const videoDataRelations = relations(videoData, ({ one }) => ({
+  user: one(users, {
+    fields: [videoData.userEmail],
+    references: [users.id],
+  }),
 }));
 
 export const videosRelations = relations(videos, ({ one }) => ({

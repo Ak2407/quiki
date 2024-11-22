@@ -9,6 +9,10 @@ type ScriptItem = {
 };
 
 type VidData = {
+  title: string;
+  topic: string;
+  voice: string;
+  language: string;
   script: ScriptItem[];
   audioUrl: string;
   imageList: string[];
@@ -17,18 +21,22 @@ type VidData = {
 
 export const addVideoData = async (vidData: VidData, userEmail: string) => {
   if (!userEmail) {
-    throw new Error("User email is required");
+    throw new Error("User Email is required");
   }
 
   try {
     const result = await db
       .insert(videoData)
       .values({
+        title: vidData.title,
+        topic: vidData.topic,
+        voice: vidData.voice,
+        language: vidData.language,
         script: vidData.script,
         audioUrl: vidData.audioUrl,
         imageList: vidData.imageList,
         captions: vidData.caption,
-        createdBy: userEmail,
+        userEmail: userEmail,
       })
       .returning({ id: videoData.id });
 
