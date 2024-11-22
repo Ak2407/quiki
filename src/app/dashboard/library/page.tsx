@@ -22,7 +22,7 @@ const Library = async () => {
         <SearchBar videos={allUserVideos} />
       </div>
       <HeaderBar title="Library" />
-      <div className="flex flex-wrap gap-6 w-full">
+      <div className="flex flex-wrap justify-center sm:justify-start gap-6 w-full">
         {allUserVideos.length === 0 ? (
           <EmptyState />
         ) : (

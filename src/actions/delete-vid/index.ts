@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { videos } from "@/db/schema";
+import { videoData } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const deleteVideo = async (vidId: string) => {
@@ -10,7 +10,7 @@ export const deleteVideo = async (vidId: string) => {
   }
 
   try {
-    await db.delete(videos).where(eq(videos.id, vidId));
+    await db.delete(videoData).where(eq(videoData.id, vidId));
 
     return { success: true, message: "Video deleted successfully" };
   } catch (error) {

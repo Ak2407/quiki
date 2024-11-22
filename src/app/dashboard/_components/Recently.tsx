@@ -23,7 +23,7 @@ const Recently = async () => {
       {recentVideos.length === 0 ? (
         <EmptyState />
       ) : (
-        <div className="flex flex-col lg:flex-row justify-center sm:justify-start flex-wrap gap-6">
+        <div className="flex flex-row justify-start flex-wrap gap-6">
           {recentVideos.map((video) => (
             <div key={video.id}>
               <GeneratedVid

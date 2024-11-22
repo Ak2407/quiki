@@ -1,28 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { getVideo } from "@/actions/get-video";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import VideoCard from "./VideoCard";
-import { UpdateVideoFormValues, updateVideoSchema } from "@/db/schema";
 
 export default function UpdateForm() {
   const params = useParams();
   const { id } = params;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [script, setScript] = useState<string>("This is a script");
-
-  const form = useForm<UpdateVideoFormValues>({
-    resolver: zodResolver(updateVideoSchema),
-    defaultValues: {
-      id: id.toString(),
-      script: "This is a test",
-    },
-  });
 
   // useEffect(() => {
   //   const fetchVideo = async () => {

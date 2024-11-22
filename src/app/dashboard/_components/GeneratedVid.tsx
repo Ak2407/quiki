@@ -26,16 +26,18 @@ const GeneratedVid = ({
       href={`/dashboard/${videoId}`}
       className="block w-full transition-transform duration-300 ease-in-out hover:scale-105"
     >
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden h-[270px] max-h-[270px] w-[180px] max-w-[180px]">
         <div className="relative aspect-video bg-gradient-to-br from-purple-500 to-pink-500">
           <PlayCircleIcon className="absolute inset-0 m-auto text-white/80 w-12 h-12" />
         </div>
-        <CardContent className="p-4">
-          <h2 className="text-lg font-semibold mb-2">{trimText(title, 40)}</h2>
-          <Badge variant="secondary" className="mb-3">
+        <CardContent className="p-4 flex flex-col justify-evenly gap-2 ">
+          <h2 className="text-base font-semibold mb-2">
+            {trimText(title, 14)}
+          </h2>
+          <Badge variant="secondary" className="mb-3 w-fit">
             {topic}
           </Badge>
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
             <div className="flex items-center space-x-2">
               <AudioLinesIcon className="w-4 h-4" />
               <span>{voice}</span>
