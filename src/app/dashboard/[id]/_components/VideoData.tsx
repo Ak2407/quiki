@@ -35,7 +35,7 @@ export default function VideoData() {
             <Skeleton className="h-[40px] mx-auto w-60" />
           </div>
           <div className="space-y-6">
-            <Skeleton className="h-6 w-full" />
+            <Skeleton className="h-8 w-full" />
             <Skeleton className="h-20 w-full" />
 
             <Skeleton className="h-6 w-full" />
