@@ -18,7 +18,8 @@ const UpgradeAlert = () => {
     <Alert className="mb-6 bg-red-50 border-red-200 text-red-900">
       <AlertDescription className="flex gap-2 items-center justify-between">
         <span>
-          Cannot generate more videos on the free plan. Upgrade to create more.
+          Cannot generate more videos on the free plan. Consider upgrading to
+          create more.
         </span>
         <button onClick={handleUpgrade} disabled={loading}>
           {loading ? (
