@@ -5,6 +5,8 @@ import { getVideo } from "@/actions/get-video";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import VideoCard from "./VideoCard";
+import { CopyIcon } from "lucide-react";
+import { toast } from "sonner";
 
 export default function VideoData() {
   const params = useParams();
@@ -52,24 +54,36 @@ export default function VideoData() {
       <VideoCard src="https://delivery.copycopter.ai/lpexamples0823/one_compressed.mp4" />
 
       <div className="space-y-6">
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="script" className="text-sm font-medium">
-            TITLE
-          </label>
-          <div className="p-2 border border-input rounded-md text-sm">
-            <p>{title}</p>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-2 ">
-          <label htmlFor="script" className="text-sm font-medium">
-            SCRIPT
-          </label>
-          <div className="p-4 border border-input rounded-md text-sm">
-            <p>{script}</p>
-          </div>
-        </div>
+        <CopyTextBox label="Title" text={title} />
+        <CopyTextBox label="Script" text={script} />
       </div>
     </div>
   );
 }
+
+const CopyTextBox = ({ text, label }: { text: string; label: string }) => {
+  const handleCopy = () => {
+    toast.success("Copied to clipboard");
+
+    navigator.clipboard.writeText(text);
+  };
+
+  return (
+    <div className="flex flex-col gap-2 ">
+      <label htmlFor="script" className="text-sm font-medium">
+        {label}
+      </label>
+      <div
+        className="relative p-2 border border-input rounded-md text-sm cursor-pointer "
+        onClick={handleCopy}
+      >
+        {/* <button onClick={handleCopy} className="absolute right-2 top-2"> */}
+        {/*   <CopyIcon className="size-4 text-gray-400 cursor-pointer hover:text-gray-500 " /> */}
+        {/* </button> */}
+        <p className="text-justify hover:opacity-80 transition-all ease-in-out duration-200">
+          {text}
+        </p>
+      </div>
+    </div>
+  );
+};
