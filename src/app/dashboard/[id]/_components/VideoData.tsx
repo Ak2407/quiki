@@ -5,7 +5,6 @@ import { getVideo } from "@/actions/get-video";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useParams } from "next/navigation";
 import VideoCard from "./VideoCard";
-import { CopyIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export default function VideoData() {
@@ -50,8 +49,7 @@ export default function VideoData() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      {/* {vidUrl && <VideoCard src={vidUrl} />} */}
-      <VideoCard src="https://delivery.copycopter.ai/lpexamples0823/one_compressed.mp4" />
+      <VideoCard vidId={id.toString()} />
 
       <div className="space-y-6">
         <CopyTextBox label="Title" text={title} />
@@ -77,9 +75,6 @@ const CopyTextBox = ({ text, label }: { text: string; label: string }) => {
         className="relative p-2 border border-input rounded-md text-sm cursor-pointer "
         onClick={handleCopy}
       >
-        {/* <button onClick={handleCopy} className="absolute right-2 top-2"> */}
-        {/*   <CopyIcon className="size-4 text-gray-400 cursor-pointer hover:text-gray-500 " /> */}
-        {/* </button> */}
         <p className="text-justify hover:opacity-80 transition-all ease-in-out duration-200">
           {text}
         </p>
