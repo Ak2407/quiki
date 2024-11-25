@@ -14,6 +14,7 @@ type VideoCardProps = {
 const VideoCard = ({ vidId }: VideoCardProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [vidData, setVidData] = useState<any>(null);
+  const [duration, setDuration] = useState<number>(100);
 
   useEffect(() => {
     if (vidId) getVidData();
@@ -21,7 +22,6 @@ const VideoCard = ({ vidId }: VideoCardProps) => {
 
   const getVidData = async () => {
     const result = await getVideo(vidId);
-    console.log(result);
     setVidData(result);
   };
 
@@ -30,10 +30,15 @@ const VideoCard = ({ vidId }: VideoCardProps) => {
       <div className="h-[500px] lg:h-[500px] mx-auto flex items-center justify-center aspect-[9/16] p-2 bg-gray-50 border">
         <Player
           component={RemotionVideo}
-          durationInFrames={120}
+          durationInFrames={Number(duration.toFixed(0))}
           compositionWidth={300}
           compositionHeight={450}
           fps={30}
+          inputProps={{
+            ...vidData,
+            setDuration: (frameValue: number) => setDuration(frameValue),
+          }}
+          controls
         />
       </div>
       <Button variant="primary" className="w-full " disabled={loading}>
