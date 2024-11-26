@@ -72,7 +72,7 @@ const CopyTextBox = ({ text, label }: { text: string; label: string }) => {
         {label}
       </label>
       <div
-        className="relative p-2 border border-input rounded-md text-sm cursor-pointer "
+        className="relative p-2 border border-input rounded-md text-sm cursor-copy "
         onClick={handleCopy}
       >
         <p className="text-justify hover:opacity-80 transition-all ease-in-out duration-200">

@@ -2,6 +2,7 @@ import {
   AbsoluteFill,
   Audio,
   Img,
+  interpolate,
   Sequence,
   useCurrentFrame,
   useVideoConfig,
@@ -49,6 +50,17 @@ const RemotionVideo = ({
     script && (
       <AbsoluteFill className="bg-black">
         {imageList.map((img: string, index: number) => {
+          const startTime = getFrom(index);
+          const duration = getDurationFrame();
+
+          const scale = (index: number) =>
+            interpolate(
+              frame,
+              [startTime, startTime + duration / 2, startTime + duration],
+              index % 2 === 0 ? [1, 1.8, 1] : [1.8, 1, 1.8],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+            );
+
           return (
             <>
               <Sequence
@@ -57,7 +69,13 @@ const RemotionVideo = ({
                 durationInFrames={getDurationFrame()}
               >
                 <AbsoluteFill className="justify-center items-center">
-                  <Img src={img} className="w-full h-full object-cover" />
+                  <Img
+                    src={img}
+                    className="w-full h-full object-cover"
+                    style={{
+                      transform: `scale(${scale(index)})`,
+                    }}
+                  />
                   <AbsoluteFill
                     style={{
                       color: "white",
@@ -69,9 +87,11 @@ const RemotionVideo = ({
                       width: "100%",
                     }}
                   >
-                    <h2 className="text-2xl font-semibold text-amber-500">
-                      {getCurrentCaption()}
-                    </h2>
+                    <div className="px-2 bg-black/50  rounded-md w-fit mx-auto">
+                      <h2 className="text-xl font-semibold text-white">
+                        {getCurrentCaption()}
+                      </h2>
+                    </div>
                   </AbsoluteFill>
                 </AbsoluteFill>
               </Sequence>
