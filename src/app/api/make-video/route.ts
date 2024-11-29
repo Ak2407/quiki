@@ -9,8 +9,8 @@ export async function POST(req: Request) {
     const { captions, imageUrls, audioUrl } = await req.json();
 
     // Ensure directories exist
-    const tempDir = path.join(process.cwd(), "src/app/videos/temp");
-    const outputDir = path.join(process.cwd(), "src/app/videos");
+    const tempDir = path.join(process.cwd(), "public/videos/temp");
+    const outputDir = path.join(process.cwd(), "public/videos");
     await fs.mkdir(tempDir, { recursive: true });
     await fs.mkdir(outputDir, { recursive: true });
 
@@ -35,27 +35,58 @@ export async function POST(req: Request) {
     const srtContent = jsonToSRT(captions);
     await fs.writeFile(captionsPath, srtContent);
 
+    // Log SRT content for debugging
+    console.log("Generated SRT Content:\n", srtContent);
+
+    // Get audio duration (in seconds)
+    const audioDuration = await new Promise<number>((resolve, reject) => {
+      ffmpeg.ffprobe(audioPath, (err, metadata) => {
+        if (err) reject(err);
+        const duration = metadata.format.duration;
+        resolve(duration);
+      });
+    });
+
+    // Calculate duration for each image
+    const imageDuration = audioDuration / imageFiles.length;
+
+    // Create a temporary file for image sequence
+    const imageListPath = path.join(tempDir, "image_list.txt");
+    const imageListContent = imageFiles
+      .map((file) => `file '${file}'\nduration ${imageDuration}`)
+      .join("\n");
+    await fs.writeFile(imageListPath, imageListContent);
+
     // Generate video with FFmpeg
     const outputPath = path.join(outputDir, "output.mp4");
 
     await new Promise((resolve, reject) => {
       ffmpeg()
-        .input(`concat:${imageFiles.join("|")}`)
+        .input(imageListPath)
+        .inputOptions("-f", "concat", "-safe", "0")
         .input(audioPath)
-        .outputOptions("-vf", `subtitles=${captionsPath}`)
+        .videoFilters(`subtitles=${captionsPath}`)
         .outputOptions("-c:v", "libx264")
         .outputOptions("-pix_fmt", "yuv420p")
         .outputOptions("-preset", "medium")
         .outputOptions("-crf", "23")
+        .outputOptions("-shortest")
         .outputOptions("-movflags", "+faststart")
         .output(outputPath)
+        .on("start", (cmd) => console.log("FFmpeg command:", cmd))
+        .on("stderr", (stderrLine) => console.log("FFmpeg stderr:", stderrLine))
         .on("end", resolve)
         .on("error", reject)
         .run();
     });
 
     // Clean up temporary files
-    for (const file of [...imageFiles, audioPath, captionsPath]) {
+    for (const file of [
+      ...imageFiles,
+      audioPath,
+      captionsPath,
+      imageListPath,
+    ]) {
       await fs.unlink(file);
     }
 
@@ -82,7 +113,7 @@ function jsonToSRT(
       const endTime = msToSRTTime(caption.end);
       return `${index + 1}\n${startTime} --> ${endTime}\n${caption.text}\n`;
     })
-    .join("\n\n");
+    .join("\n");
 }
 
 // Helper: Convert milliseconds to SRT timestamp
