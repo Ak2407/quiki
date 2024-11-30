@@ -1,0 +1,17 @@
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image1.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image2.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image3.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image4.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image5.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image6.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image7.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image8.png'
+duration 9
+file '/Users/axit/Desktop/projects/quiki/public/videos/temp/image8.png'
