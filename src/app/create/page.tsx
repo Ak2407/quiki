@@ -90,7 +90,7 @@ const CreatePage = () => {
     // }
 
     try {
-      const vidData = await getVideo("b930d502-4278-4e32-99ad-5c0f0ca439d9");
+      const vidData = await getVideo("7780eeb8-849c-43b4-b9b7-872976f09c69");
 
       const video = await axios.post("/api/make-video", {
         captions: vidData.captions,

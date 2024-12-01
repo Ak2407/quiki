@@ -5,8 +5,8 @@ import path from "path";
 import fetch from "node-fetch";
 
 export async function POST(req: Request) {
-  const tempDir = path.join(process.cwd(), "public/videos/temp");
-  const outputDir = path.join(process.cwd(), "public/videos");
+  const tempDir = path.join(process.cwd(), "src/videos/temp");
+  const outputDir = path.join(process.cwd(), "src/videos");
 
   try {
     // Validate input
@@ -64,46 +64,46 @@ export async function POST(req: Request) {
     // Generate video with FFmpeg
     const outputPath = path.join(outputDir, "output.mp4");
     await new Promise((resolve, reject) => {
-      // Create a file with image list for FFmpeg
-      const imageListPath = path.join(tempDir, "image_list.txt");
-      const imageListContent = imageFiles
-        .map((file) => `file '${file}'\nduration ${imageDuration}`)
-        .join("\n");
+      const ffmpegCommand = ffmpeg();
 
-      fs.writeFile(
-        imageListPath,
-        imageListContent + `\nfile '${imageFiles[imageFiles.length - 1]}'`,
-        "utf8",
-      )
-        .then(() => {
-          ffmpeg()
-            .input(imageListPath)
-            .inputOptions(["-f", "concat"])
-            .inputOptions(["-safe", "0"])
-            .input(audioPath)
-            .outputOptions(["-c:v", "libx264"])
-            .outputOptions(["-pix_fmt", "yuv420p"])
-            .outputOptions(["-c:a", "aac"])
-            .outputOptions(["-shortest"])
-            .output(outputPath)
-            .on("start", (cmd) => console.log("FFmpeg command:", cmd))
-            .on("stderr", (stderrLine) =>
-              console.log("FFmpeg stderr:", stderrLine),
-            )
-            .on("error", (err) => {
-              console.error("FFmpeg error:", err);
-              reject(err);
-            })
-            .on("end", resolve)
-            .run();
+      // Add each image with captions
+      imageFiles.forEach((file, index) => {
+        const caption = captions[index] || ""; // Use caption for the image or default to empty
+        ffmpegCommand.input(file).inputOptions(`-t ${imageDuration}`);
+        ffmpegCommand.complexFilter([
+          {
+            filter: "drawtext",
+            options: {
+              text: caption,
+              fontcolor: "white",
+              fontsize: 24,
+              x: "(w-text_w)/2",
+              y: "h-th-10",
+              borderw: 2, // Add a border to text
+              box: 1,
+              boxcolor: "black@0.5",
+              boxborderw: 5,
+            },
+          },
+        ]);
+      });
+
+      // Add audio input
+      ffmpegCommand.input(audioPath);
+
+      // Output settings
+      ffmpegCommand
+        .outputOptions(["-c:v", "libx264", "-pix_fmt", "yuv420p", "-shortest"])
+        .output(outputPath)
+        .on("start", (cmd) => console.log("FFmpeg command:", cmd))
+        .on("stderr", (stderrLine) => console.log("FFmpeg stderr:", stderrLine))
+        .on("error", (err) => {
+          console.error("FFmpeg error:", err);
+          reject(err);
         })
-        .catch(reject);
+        .on("end", resolve)
+        .run();
     });
-
-    // Handle captions (this might require a separate pass or additional FFmpeg filter)
-    if (captions && captions.length > 0) {
-      console.warn("Captions processing is not implemented in this version");
-    }
 
     // Clean up temporary files
     await Promise.all([
