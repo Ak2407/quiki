@@ -68,44 +68,44 @@ const CreatePage = () => {
   const onFinish = async () => {
     setIsDialogOpen(true);
     setDialogMessage("Generating Video Script...");
-    // const data = {
-    //   topic: selectedTopic,
-    //   language: selectedLanguage,
-    //   gender: selectedGender,
-    //   duration: selectedDuration,
-    // };
-    // try {
-    //   await axios.post("/api/get-vid-text", data).then((response) => {
-    //     updateVidData({
-    //       script: response.data.result,
-    //       title: response.data.title,
-    //     });
-    //     GenerateAudio(response.data.result);
-    //     toast.success("Video Script Generated Successfully");
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error("Error Generating Video Script");
-    //   setIsDialogOpen(false);
-    // }
-
+    const data = {
+      topic: selectedTopic,
+      language: selectedLanguage,
+      gender: selectedGender,
+      duration: selectedDuration,
+    };
     try {
-      const vidData = await getVideo("7780eeb8-849c-43b4-b9b7-872976f09c69");
-
-      const video = await axios.post("/api/make-video", {
-        captions: vidData.captions,
-        imageUrls: vidData.imageList,
-        audioUrl: vidData.audioUrl,
+      await axios.post("/api/get-vid-text", data).then((response) => {
+        updateVidData({
+          script: response.data.result,
+          title: response.data.title,
+        });
+        GenerateAudio(response.data.result);
+        toast.success("Video Script Generated Successfully");
       });
-      console.log(video);
-      toast.success("Video Generated Successfully");
     } catch (error) {
       console.log(error);
-      toast.error("Error Generating Video");
-    } finally {
+      toast.error("Error Generating Video Script");
       setIsDialogOpen(false);
-      router.push("/dashboard");
     }
+
+    // try {
+    //   const vidData = await getVideo("7780eeb8-849c-43b4-b9b7-872976f09c69");
+    //
+    //   const video = await axios.post("/api/make-video", {
+    //     captions: vidData.captions,
+    //     imageUrls: vidData.imageList,
+    //     audioUrl: vidData.audioUrl,
+    //   });
+    //   console.log(video);
+    //   toast.success("Video Generated Successfully");
+    // } catch (error) {
+    //   console.log(error);
+    //   toast.error("Error Generating Video");
+    // } finally {
+    //   setIsDialogOpen(false);
+    //   router.push("/dashboard");
+    // }
   };
 
   const GenerateAudio = async (vidScript: ScriptItem[]) => {
@@ -185,7 +185,7 @@ const CreatePage = () => {
       setDialogMessage("Video Generated Successfully");
       setTimeout(() => {
         setIsDialogOpen(false);
-        router.push("/dashboard");
+        router.push("/library");
       }, 2000);
     } catch (error) {
       console.error("Error adding video data:", error);
